@@ -7,32 +7,27 @@ function resolve(dir) {
 }
 
 //获取本机ip
-const os = require('os')
 function getNetworkIp() {
   // 打开的 host
-  let needHost = '';
-  try {
-    // 获得网络接口列表
-    let network = os.networkInterfaces();
-    for (let dev in network) {
-      if(dev === "WLAN"){
-        let iface = network[dev];
-        for (let i = 0; i < iface.length; i++) {
+  const os = require('os');
+  const interfaces = os.networkInterfaces();
+  let needHost = null;
 
-          let alias = iface[i];
-          if (
-            alias.family === 'IPv4' &&
-            alias.address !== '127.0.0.1' &&
-            !alias.internal
-          ) {
-            needHost = alias.address;
-          }
+  Object.keys(interfaces).forEach(devName => {
+    if (devName === 'WLAN' || devName === '以太网') { // 根据实际情况判断网络接口名称
+      interfaces[devName].forEach(alias => {
+        if (alias.family === 'IPv4' && alias.address !== '127.0.0.1'&& !alias.internal) {
+          needHost = alias.address;
         }
-      }
+      });
     }
-  } catch (e) {
-    needHost = 'http://localhost';
+  });
+
+  if (!needHost) {
+    needHost = 'localhost';
   }
+
+  console.log(`Host is: ${needHost}`);
   return needHost;
 }
 

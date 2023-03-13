@@ -1,8 +1,11 @@
 package com.kyle.ucenter.controller;
 
 
+import com.kyle.security.security.TokenManager;
+import com.kyle.ucenter.entity.BUser;
 import com.kyle.ucenter.entity.vo.LoginQuery;
 import com.kyle.ucenter.service.AdminService;
+import com.kyle.ucenter.service.BUserService;
 import com.kyle.util.JwtUtils;
 import com.kyle.util.R;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +25,10 @@ public class LoginController {
 
     @Autowired
     AdminService adminService;
+    @Autowired
+    BUserService bUserService;
+    @Autowired
+    TokenManager tokenManager;
     
     @PostMapping("login")
     public R login(@RequestBody LoginQuery loginQuery){
@@ -33,14 +40,12 @@ public class LoginController {
 
     @GetMapping("info")
     public R info(HttpServletRequest request){
-        Map<String,String> info = JwtUtils.getMemberInfoByJwtToken(request);
-        if (info != null) {
-            String[] str = new String[]{"admin"};
-            return R.ok().data("id", info.get("id"))
-                    .data("name", info.get("name"))
-                    .data("avatar", info.get("avatar"))
-                    .data("roles",str)
-                    .data("introduction", "hello world");
+        String jwtToken = request.getHeader("X-Token");
+        String id = tokenManager.getUserIDToken(jwtToken);
+        BUser user = bUserService.getById(id);
+        if (user != null) {
+//            String[] str = new String[]{"admin"};
+            return R.ok().data("user",user);
         }else{
             return R.error();
         }

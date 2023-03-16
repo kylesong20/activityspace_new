@@ -77,7 +77,7 @@
           <router-link :to="'/organization/organizationEdit/'+scope.row.id">
             <el-button v-if="hasPerm('organization.update')" size="mini" style="margin-right: 10px;">修改社团信息</el-button>
           </router-link>
-          <el-button v-if="hasPerm('organization.update')" size="mini" style="margin-right: 10px;" @click="openDia(scope.row)">{{ scope.row.leaderId === ''?'添加负责人':'修改负责人' }}</el-button>
+          <el-button v-if="hasPerm('organization.update')" size="mini" style="margin-right: 10px;" @click="openDia(scope.row.id)">{{ scope.row.leaderId === ''?'添加负责人':'修改负责人' }}</el-button>
           <el-button v-if="hasPerm('organization.remove')" size="mini" type="danger" @click="removeById(scope.row.id)">
             删除
           </el-button>
@@ -98,14 +98,15 @@
       :visible.sync="dialogVisible"
       width="30%"
     >
-      <el-form ref="form" :model="form" label-width="80px">
-        <el-form-item label="负责人" prop="leaderName">
+      <el-row>
+        <h3>请选择社团负责人</h3>
+        <el-col>
           <el-select
-            v-model="form.leaderName"
+            v-model="leaderName"
             clearable
             filterable
             placeholder="请选择社团负责人"
-            @visible-change="getUsersList(form.id)"
+            @visible-change="getUsersList(rowId)"
           >
             <el-option
               v-for="item in users"
@@ -115,8 +116,8 @@
               @click.native="click(item.id)"
             />
           </el-select>
-        </el-form-item>
-      </el-form>
+        </el-col>
+      </el-row>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
@@ -142,7 +143,9 @@ export default {
       OrganizationQuery: {},
       form: {},
       users: null,
-      leaderId: ''
+      leaderId: '',
+      leaderName: '',
+      rowId: ''
     }
   },
   created() {
@@ -192,11 +195,12 @@ export default {
     // 设置负责人id
     click(id) {
       this.leaderId = id
+      console.log()
       console.log(this.leaderId)
     },
-    openDia(row) {
+    openDia(id) {
       this.dialogVisible = true
-      this.form = row
+      this.rowId = id
     },
     toggleSelection(rows) {
       if (rows) {

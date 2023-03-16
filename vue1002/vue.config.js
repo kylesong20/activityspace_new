@@ -6,29 +6,29 @@ function resolve(dir) {
   return path.join(__dirname, dir)
 }
 
-//获取本机ip
+// 获取本机ip
 function getNetworkIp() {
   // 打开的 host
-  const os = require('os');
-  const interfaces = os.networkInterfaces();
-  let needHost = null;
+  const os = require('os')
+  const interfaces = os.networkInterfaces()
+  let needHost = null
 
   Object.keys(interfaces).forEach(devName => {
     if (devName === 'WLAN' || devName === '以太网') { // 根据实际情况判断网络接口名称
       interfaces[devName].forEach(alias => {
-        if (alias.family === 'IPv4' && alias.address !== '127.0.0.1'&& !alias.internal) {
-          needHost = alias.address;
+        if (alias.family === 'IPv4' && alias.address !== '127.0.0.1' && !alias.internal) {
+          needHost = alias.address
         }
-      });
+      })
     }
-  });
+  })
 
   if (!needHost) {
-    needHost = 'localhost';
+    needHost = 'localhost'
   }
 
-  console.log(`Host is: ${needHost}`);
-  return needHost;
+  console.log(`Host is: ${needHost}`)
+  return needHost
 }
 
 const name = defaultSettings.title || 'vue Element Admin' // page title
@@ -86,12 +86,12 @@ module.exports = {
       }
     ])
 
-    //获取本机ip
+    // 获取本机ip
     config.plugin('define').tap((args) => {
-      let ip = getNetworkIp();
-      args[0]['process.env'].VUE_APP_BASE_API = `"http://${ip}:8222"`;
-      return args;
-    });
+      const ip = getNetworkIp()
+      args[0]['process.env'].VUE_APP_BASE_API = `"http://${ip}:8222"`
+      return args
+    })
 
     // when there are many pages, it will cause too many meaningless requests
     config.plugins.delete('prefetch')

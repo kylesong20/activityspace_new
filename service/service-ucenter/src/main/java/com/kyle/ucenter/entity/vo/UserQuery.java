@@ -1,5 +1,6 @@
 package com.kyle.ucenter.entity.vo;
 
+import com.kyle.ucenter.entity.BUser;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

@@ -12,9 +12,9 @@ export default {
   },
 
   // 获取负责人用户
-  getOrganizationUser() {
+  getOrganizationUser(oid) {
     return request({
-      url: `/ucenter/user/getOrganizationUser`,
+      url: `/ucenter/user/getOrganizationUser/${oid}`,
       method: 'get'
     })
   },

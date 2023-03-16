@@ -27,12 +27,12 @@
           />
         </el-select>
       </el-form-item>
-      <el-form-item label="是否为负责人" prop="isLeader">
-        <el-select v-model="user.isLeader" clearable placeholder="请选择">
-          <el-option label="是" value="1" />
-          <el-option label="否" value="0" />
-        </el-select>
-      </el-form-item>
+      <!--      <el-form-item label="是否为负责人" prop="isLeader">-->
+      <!--        <el-select v-model="user.isLeader" clearable placeholder="请选择">-->
+      <!--          <el-option label="是" value="1" />-->
+      <!--          <el-option label="否" value="0" />-->
+      <!--        </el-select>-->
+      <!--      </el-form-item>-->
       <el-form-item label="学生头像">
         <pan-thumb :image="user.avatar" />
 
@@ -123,12 +123,12 @@ export default {
           required: true,
           message: '请选择组织',
           trigger: 'blur'
-        }],
-        isLeader: [{
-          required: true,
-          message: '请选择',
-          trigger: 'blur'
         }]
+        // isLeader: [{
+        //   required: true,
+        //   message: '请选择',
+        //   trigger: 'blur'
+        // }]
       },
 
       user: {

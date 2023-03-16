@@ -72,11 +72,12 @@
         </template>
       </el-table-column>
       <el-table-column />
-      <el-table-column fixed="right" label="操作" width="200" align="center">
+      <el-table-column fixed="right" label="操作" width="400" align="center">
         <template slot-scope="scope">
           <router-link :to="'/organization/organizationEdit/'+scope.row.id">
-            <el-button v-if="hasPerm('organization.update')" size="mini" style="margin-right: 10px;">修改</el-button>
+            <el-button v-if="hasPerm('organization.update')" size="mini" style="margin-right: 10px;">修改社团信息</el-button>
           </router-link>
+          <el-button v-if="hasPerm('organization.update')" size="mini" style="margin-right: 10px;" @click="openDia(scope.row)">{{ scope.row.leaderId === ''?'添加负责人':'修改负责人' }}</el-button>
           <el-button v-if="hasPerm('organization.remove')" size="mini" type="danger" @click="removeById(scope.row.id)">
             删除
           </el-button>
@@ -92,22 +93,56 @@
       style="padding: 30px 0;text-align: center;"
       @current-change="getList"
     />
+    <el-dialog
+      title="提示"
+      :visible.sync="dialogVisible"
+      width="30%"
+    >
+      <el-form ref="form" :model="form" label-width="80px">
+        <el-form-item label="负责人" prop="leaderName">
+          <el-select
+            v-model="form.leaderName"
+            clearable
+            filterable
+            placeholder="请选择社团负责人"
+            @visible-change="getUsersList(form.id)"
+          >
+            <el-option
+              v-for="item in users"
+              :key="item.id"
+              :label="item.name"
+              :value="item.name"
+              @click.native="click(item.id)"
+            />
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import organization from '@/api/activityspace/organization'
+import user from '@/api/activityspace/user'
 
 export default {
   data() {
     return {
+      dialogVisible: false,
       multipleSelection: [],
 
       list: null,
       page: 1,
       limit: 5,
       total: null,
-      OrganizationQuery: {}
+      OrganizationQuery: {},
+      form: {},
+      users: null,
+      leaderId: ''
     }
   },
   created() {
@@ -145,6 +180,24 @@ export default {
       })
     },
 
+    getUsersList(oid) {
+      if (this.users === null) {
+        user.getOrganizationUser(oid)
+          .then(response => {
+            this.users = response.data.items
+            console.log(this.users)
+          })
+      }
+    },
+    // 设置负责人id
+    click(id) {
+      this.leaderId = id
+      console.log(this.leaderId)
+    },
+    openDia(row) {
+      this.dialogVisible = true
+      this.form = row
+    },
     toggleSelection(rows) {
       if (rows) {
         rows.forEach(row => {

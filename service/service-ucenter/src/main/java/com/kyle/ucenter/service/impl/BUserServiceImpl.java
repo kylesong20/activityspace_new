@@ -1,12 +1,14 @@
 package com.kyle.ucenter.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kyle.ucenter.entity.BUser;
 import com.kyle.ucenter.entity.vo.UserQuery;
 import com.kyle.ucenter.mapper.BUserMapper;
 import com.kyle.ucenter.service.BUserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -24,6 +26,8 @@ import java.util.Map;
  */
 @Service
 public class BUserServiceImpl extends ServiceImpl<BUserMapper, BUser> implements BUserService {
+    @Autowired
+    BUserMapper bUserMapper;
 
     @Override
     public Map<String, Object> pageUserCondition(long current, long limit, UserQuery userQuery) {
@@ -57,10 +61,12 @@ public class BUserServiceImpl extends ServiceImpl<BUserMapper, BUser> implements
 
         wrapper.orderByDesc("create_time");
 
-        page(userPage,wrapper);
+//        page(userPage,wrapper);
 
-        long total = userPage.getTotal();
-        List<BUser> records = userPage.getRecords();
+        IPage<BUser> bUserIPage = bUserMapper.listPage(userPage, wrapper);
+
+        long total = bUserIPage.getTotal();
+        List<BUser> records = bUserIPage.getRecords();
 
         Map<String, Object> map = new HashMap<>();
         map.put("total",total);

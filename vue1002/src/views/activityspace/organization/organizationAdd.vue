@@ -11,23 +11,6 @@
       <el-form-item label="组织名" prop="name">
         <el-input v-model="organization.name" />
       </el-form-item>
-      <el-form-item label="负责人" prop="leaderName">
-        <el-select
-          v-model="organization.leaderName"
-          clearable
-          filterable
-          placeholder="请选择社团负责人"
-          @visible-change="getUsersList()"
-        >
-          <el-option
-            v-for="item in users"
-            :key="item.id"
-            :label="item.name"
-            :value="item.name"
-            @click.native="click(item.id)"
-          />
-        </el-select>
-      </el-form-item>
       <el-form-item label="组织简介" prop="introduction">
         <el-input v-model="organization.introduction" @input="change($event)" />
       </el-form-item>
@@ -83,7 +66,6 @@
 
 <script>
 import organization from '@/api/activityspace/organization'
-import user from '@/api/activityspace/user'
 import ImageCropper from '@/components/ImageCropper'
 import PanThumb from '@/components/PanThumb'
 
@@ -131,9 +113,7 @@ export default {
       BASE_API: process.env.VUE_APP_BASE_API,
       saveBtnDisabled: false, // 保存按钮是否禁用,
 
-      fileList: [],
-
-      users: null
+      fileList: []
     }
   },
 
@@ -245,20 +225,7 @@ export default {
         this.fileList = [fileList[fileList.length - 1]] // 这一步，是 展示最后一次选择的csv文件
       }
     },
-    getUsersList() {
-      if (this.users === null) {
-        user.getOrganizationUser()
-          .then(response => {
-            this.users = response.data.items
-            console.log(this.users)
-          })
-      }
-    },
-    // 设置负责人id
-    click(id) {
-      this.organization.leaderId = id
-      console.log(this.organization)
-    },
+
     change(e) {
       this.$forceUpdate()
     }

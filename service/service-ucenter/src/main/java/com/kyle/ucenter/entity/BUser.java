@@ -50,6 +50,7 @@ public class BUser implements Serializable {
 
     private String organizationName;
 
+    @TableField(exist = false)
     private char isLeader;
 
 

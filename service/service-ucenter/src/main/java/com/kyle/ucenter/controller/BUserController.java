@@ -114,10 +114,10 @@ public class BUserController {
     }
 
     @ApiOperation(value = "查询负责人")
-    @GetMapping("getOrganizationUser")
-    public R getOrganizationUser(){
+    @GetMapping("getOrganizationUser/{oid}")
+    public R getOrganizationUser(@PathVariable String oid){
         QueryWrapper<BUser> wrapper = new QueryWrapper<>();
-        wrapper.eq("is_leader",1);
+        wrapper.eq("organization_id",oid);
         wrapper.orderByDesc("create_time");
         List<BUser> list = userService.list(wrapper);
         return R.ok().data("items",list);

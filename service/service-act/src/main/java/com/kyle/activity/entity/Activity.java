@@ -50,4 +50,7 @@ public class Activity implements Serializable {
     private String userId;
 
     private String img;
+
+    private String externalLinks;
+
 }

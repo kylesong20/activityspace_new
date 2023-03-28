@@ -46,6 +46,9 @@
           />
         </el-select>
       </el-form-item>
+      <el-form-item label="请输入推文链接" prop="externalLinks">
+        <el-input v-model="activity.externalLinks" />
+      </el-form-item>
       <el-form-item label="申请理由" prop="reson">
         <el-input
           v-model="activity.reson"
@@ -114,19 +117,24 @@ export default {
           trigger: 'blur'
         }
         ],
+        externalLinks: [{
+          required: true,
+          message: '请输入推文链接',
+          trigger: 'blur'
+        }],
         reson: [{
           required: true,
           message: '请输入申请理由',
           trigger: 'blur'
-        }
-        ]
+        }]
       },
 
       activity: {
         name: '',
         beginTime: '',
         endTime: '',
-        reson: ''
+        reson: '',
+        externalLinks: ''
       },
 
       venueId: '',

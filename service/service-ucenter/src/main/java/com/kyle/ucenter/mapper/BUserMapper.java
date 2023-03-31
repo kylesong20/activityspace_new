@@ -20,4 +20,7 @@ public interface BUserMapper extends BaseMapper<BUser> {
 
     @Select("select u.*,(case when o.leader_name is null then '0' else'1'end) as is_leader from `user` u left join organization o   on u.id = o.leader_id ${ew.customSqlSegment}")
     IPage<BUser> listPage(IPage<BUser> venuePage, @Param(Constants.WRAPPER) QueryWrapper<BUser> venueQueryWrapper);
+
+    @Select("select leader_id from organization where id = #{id}")
+    String getLeaderId(@Param("id") String id);
 }

@@ -1,10 +1,12 @@
 package com.kyle.ucenter.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
+import com.kyle.util.IPUtils;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -53,5 +55,7 @@ public class BUser implements Serializable {
     @TableField(exist = false)
     private char isLeader;
 
-
+    public String getAvatar() {
+        return "http://"+IPUtils.getServerIP()+ ":8001" + avatar;
+    }
 }

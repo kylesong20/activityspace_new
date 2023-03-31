@@ -15,6 +15,7 @@ import org.springframework.util.StringUtils;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * <p>
@@ -44,22 +45,22 @@ public class BUserServiceImpl extends ServiceImpl<BUserMapper, BUser> implements
         String end = userQuery.getEnd();
 
         if (!StringUtils.isEmpty(num)){
-            wrapper.like("num",num);
+            wrapper.like("u.num",num);
         }
         if (!StringUtils.isEmpty(name)){
-            wrapper.like("name",name);
+            wrapper.like("u.name",name);
         }
         if (!StringUtils.isEmpty(organizationName)){
-            wrapper.like("organization_name",organizationName);
+            wrapper.like("u.organization_name",organizationName);
         }
         if (!StringUtils.isEmpty(begin)){
-            wrapper.ge("create_time",begin);
+            wrapper.ge("u.create_time",begin);
         }
         if (!StringUtils.isEmpty(end)){
-            wrapper.le("create_time",end);
+            wrapper.le("u.create_time",end);
         }
-
-        wrapper.orderByDesc("create_time");
+        wrapper.eq("u.is_delete",0);
+        wrapper.orderByDesc("u.create_time");
 
 //        page(userPage,wrapper);
 
@@ -72,6 +73,14 @@ public class BUserServiceImpl extends ServiceImpl<BUserMapper, BUser> implements
         map.put("total",total);
         map.put("rows",records);
         return map;
+    }
+
+    @Override
+    public boolean isLeader(String organizationId,String userId) {
+        String leaderId = bUserMapper.getLeaderId(organizationId);
+        if (StringUtils.isEmpty(leaderId)||StringUtils.isEmpty(userId))
+            return false;
+        return Objects.equals(leaderId, userId);
     }
 
 }

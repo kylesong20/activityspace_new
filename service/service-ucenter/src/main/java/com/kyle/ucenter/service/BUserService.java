@@ -18,4 +18,5 @@ public interface BUserService extends IService<BUser> {
 
     Map<String, Object> pageUserCondition(long current, long limit, UserQuery userQuery);
 
+    boolean isLeader(String organizationId,String userId);
 }

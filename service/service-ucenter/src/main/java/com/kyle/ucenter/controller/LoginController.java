@@ -29,30 +29,33 @@ public class LoginController {
     BUserService bUserService;
     @Autowired
     TokenManager tokenManager;
-    
+
     @PostMapping("login")
-    public R login(@RequestBody LoginQuery loginQuery){
+    public R login(@RequestBody LoginQuery loginQuery) {
         System.out.println(loginQuery);
         String token = adminService.login(loginQuery);
 
-        return R.ok().data("token",token);
+        return R.ok().data("token", token);
     }
 
     @GetMapping("info")
-    public R info(HttpServletRequest request){
+    public R info(HttpServletRequest request) {
         String jwtToken = request.getHeader("X-Token");
         String id = tokenManager.getUserIDToken(jwtToken);
         BUser user = bUserService.getById(id);
         if (user != null) {
+            user.setIsLeader('0');
+            if (bUserService.isLeader(user.getOrganizationId(), id))
+                user.setIsLeader('1');
 //            String[] str = new String[]{"admin"};
-            return R.ok().data("user",user);
-        }else{
+            return R.ok().data("user", user);
+        } else {
             return R.error();
         }
     }
 
     @PostMapping("logout")
-    public R logout(){
+    public R logout() {
         return R.ok();
     }
 }

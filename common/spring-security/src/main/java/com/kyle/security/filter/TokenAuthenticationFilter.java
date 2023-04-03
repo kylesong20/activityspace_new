@@ -34,7 +34,7 @@ public class TokenAuthenticationFilter extends BasicAuthenticationFilter {
     private TokenManager tokenManager;
     private RedisTemplate redisTemplate;
 
-    public TokenAuthenticationFilter(AuthenticationManager authManager, TokenManager tokenManager,RedisTemplate redisTemplate) {
+    public TokenAuthenticationFilter(AuthenticationManager authManager, TokenManager tokenManager, RedisTemplate redisTemplate) {
         super(authManager);
         this.tokenManager = tokenManager;
         this.redisTemplate = redisTemplate;
@@ -43,36 +43,32 @@ public class TokenAuthenticationFilter extends BasicAuthenticationFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain)
             throws IOException, ServletException {
-        logger.info("================="+req.getRequestURI());
-        logger.info("================="+req.getHeader("X-token"));
+        logger.info("=================" + req.getRequestURI());
+        logger.info("=================" + req.getHeader("X-token"));
 
-        if(req.getRequestURI().indexOf("admin") == -1 &&  req.getRequestURI().indexOf("activity") == -1 && req.getRequestURI().indexOf("ucenter") == -1) {
-
-            logger.info("=================ok");
-            chain.doFilter(req, res);
-            return;
-        }
-
+//        if(req.getRequestURI().indexOf("admin") == -1 &&  req.getRequestURI().indexOf("activity") == -1 && req.getRequestURI().indexOf("ucenter") == -1) {
+//
+//            logger.info("=================ok");
+////            chain.doFilter(req, res);
+////            return;
+//        }else {
         UsernamePasswordAuthenticationToken authentication = null;
         try {
-
             String token = req.getHeader("X-token");
-
             if (token != null && !"".equals(token.trim())) {
                 authentication = getAuthentication(token);
             }
-
 //            authentication = getAuthentication(req);
         } catch (Exception e) {
             ResponseUtil.out(res, R.error());
         }
-
         if (authentication != null) {
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            chain.doFilter(req, res);
         } else {
             ResponseUtil.out(res, R.error());
         }
+//        }
+        chain.doFilter(req, res);
     }
 
     private UsernamePasswordAuthenticationToken getAuthentication(String token) {
@@ -85,19 +81,19 @@ public class TokenAuthenticationFilter extends BasicAuthenticationFilter {
         String userName = tokenManager.getUserFromToken(token);
         Collection<GrantedAuthority> authorities = new ArrayList<>();
 
-        if (StringUtils.isEmpty(role) && role.equals("ROLE_ADMIN")){
+        if (!StringUtils.isEmpty(role) && role.equals("ROLE_ADMIN")) {
             List<String> permissionValueList = (List<String>) redisTemplate.opsForValue().get(userName);
             authorities = new ArrayList<>();
             SimpleGrantedAuthority role_admin = new SimpleGrantedAuthority("ROLE_ADMIN");
             authorities.add(role_admin);
-            for(String permissionValue : permissionValueList) {
-                if(StringUtils.isEmpty(permissionValue)) continue;
+            for (String permissionValue : permissionValueList) {
+                if (StringUtils.isEmpty(permissionValue)) continue;
                 SimpleGrantedAuthority authority = new SimpleGrantedAuthority(permissionValue);
                 authorities.add(authority);
             }
         }
-        if (StringUtils.isEmpty(role) && role.equals("ROLE_USER")){
-            BUser bUser = (BUser)redisTemplate.opsForValue().get(userName);
+        if (!StringUtils.isEmpty(role) && role.equals("ROLE_USER")) {
+            BUser bUser = (BUser) redisTemplate.opsForValue().get(userName);
             SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_USER");
             authorities.add(authority);
         }

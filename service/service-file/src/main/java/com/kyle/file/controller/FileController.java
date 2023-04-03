@@ -12,7 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
  * @creat 2022-11-19:53
  */
 @RestController
-//@CrossOrigin
+@CrossOrigin
 @RequestMapping("/actfile/file")
 public class FileController {
 

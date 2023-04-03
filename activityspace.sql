@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : test
+ Source Server         : MySQL8
  Source Server Type    : MySQL
- Source Server Version : 80017
+ Source Server Version : 80027
  Source Host           : localhost:3306
  Source Schema         : activityspace
 
  Target Server Type    : MySQL
- Target Server Version : 80017
+ Target Server Version : 80027
  File Encoding         : 65001
 
- Date: 13/03/2023 01:25:39
+ Date: 03/04/2023 17:27:44
 */
 
 SET NAMES utf8mb4;
@@ -25,13 +25,13 @@ CREATE TABLE `acl_permission`  (
   `id` varchar(19) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '编号',
   `pid` varchar(19) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '所属上级',
   `name` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '名称',
-  `type` tinyint(3) NOT NULL DEFAULT 0 COMMENT '类型(1:菜单,2:按钮)',
+  `type` tinyint(0) NOT NULL DEFAULT 0 COMMENT '类型(1:菜单,2:按钮)',
   `permission_value` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '权限值',
   `path` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '访问路径',
   `component` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '组件路径',
   `icon` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '图标',
-  `status` tinyint(4) NULL DEFAULT NULL COMMENT '状态(0:禁止,1:正常)',
-  `is_deleted` tinyint(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '逻辑删除 1（true）已删除， 0（false）未删除',
+  `status` tinyint(0) NULL DEFAULT NULL COMMENT '状态(0:禁止,1:正常)',
+  `is_deleted` tinyint unsigned NOT NULL COMMENT '逻辑删除 1（true）已删除， 0（false）未删除',
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
@@ -101,7 +101,7 @@ CREATE TABLE `acl_role`  (
   `role_name` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '角色名称',
   `role_code` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '角色编码',
   `remark` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
-  `is_deleted` tinyint(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '逻辑删除 1（true）已删除， 0（false）未删除',
+  `is_deleted` tinyint unsigned NOT NULL COMMENT '逻辑删除 1（true）已删除， 0（false）未删除',
   `create_time` datetime(0) NOT NULL COMMENT '创建时间',
   `update_time` datetime(0) NOT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
@@ -124,7 +124,7 @@ CREATE TABLE `acl_role_permission`  (
   `id` varchar(19) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `role_id` varchar(19) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `permission_id` char(19) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `is_deleted` tinyint(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '逻辑删除 1（true）已删除， 0（false）未删除',
+  `is_deleted` tinyint unsigned NOT NULL COMMENT '逻辑删除 1（true）已删除， 0（false）未删除',
   `create_time` datetime(0) NOT NULL COMMENT '创建时间',
   `update_time` datetime(0) NOT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
@@ -216,7 +216,7 @@ CREATE TABLE `acl_user`  (
   `nick_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '昵称',
   `salt` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '用户头像',
   `token` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '用户签名',
-  `is_deleted` tinyint(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '逻辑删除 1（true）已删除， 0（false）未删除',
+  `is_deleted` tinyint unsigned NOT NULL COMMENT '逻辑删除 1（true）已删除， 0（false）未删除',
   `create_time` datetime(0) NOT NULL COMMENT '创建时间',
   `update_time` datetime(0) NOT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
@@ -239,7 +239,7 @@ CREATE TABLE `acl_user_role`  (
   `id` varchar(19) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '主键id',
   `role_id` varchar(19) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '0' COMMENT '角色id',
   `user_id` char(19) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '0' COMMENT '用户id',
-  `is_deleted` tinyint(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '逻辑删除 1（true）已删除， 0（false）未删除',
+  `is_deleted` tinyint unsigned NOT NULL COMMENT '逻辑删除 1（true）已删除， 0（false）未删除',
   `create_time` datetime(0) NOT NULL COMMENT '创建时间',
   `update_time` datetime(0) NOT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
@@ -267,7 +267,7 @@ INSERT INTO `acl_user_role` VALUES ('1634189016942317574', '1610258535196704769'
 -- ----------------------------
 DROP TABLE IF EXISTS `act_evt_log`;
 CREATE TABLE `act_evt_log`  (
-  `LOG_NR_` bigint(20) NOT NULL AUTO_INCREMENT,
+  `LOG_NR_` bigint(0) NOT NULL AUTO_INCREMENT,
   `TYPE_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `PROC_DEF_ID_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `PROC_INST_ID_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
@@ -278,7 +278,7 @@ CREATE TABLE `act_evt_log`  (
   `DATA_` longblob NULL,
   `LOCK_OWNER_` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `LOCK_TIME_` timestamp(3) NULL DEFAULT NULL,
-  `IS_PROCESSED_` tinyint(4) NULL DEFAULT 0,
+  `IS_PROCESSED_` tinyint(0) NULL DEFAULT 0,
   PRIMARY KEY (`LOG_NR_`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
 
@@ -288,11 +288,11 @@ CREATE TABLE `act_evt_log`  (
 DROP TABLE IF EXISTS `act_ge_bytearray`;
 CREATE TABLE `act_ge_bytearray`  (
   `ID_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-  `REV_` int(11) NULL DEFAULT NULL,
+  `REV_` int(0) NULL DEFAULT NULL,
   `NAME_` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `DEPLOYMENT_ID_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `BYTES_` longblob NULL,
-  `GENERATED_` tinyint(4) NULL DEFAULT NULL,
+  `GENERATED_` tinyint(0) NULL DEFAULT NULL,
   PRIMARY KEY (`ID_`) USING BTREE,
   INDEX `ACT_FK_BYTEARR_DEPL`(`DEPLOYMENT_ID_`) USING BTREE,
   CONSTRAINT `ACT_FK_BYTEARR_DEPL` FOREIGN KEY (`DEPLOYMENT_ID_`) REFERENCES `act_re_deployment` (`ID_`) ON DELETE RESTRICT ON UPDATE RESTRICT
@@ -326,7 +326,7 @@ DROP TABLE IF EXISTS `act_ge_property`;
 CREATE TABLE `act_ge_property`  (
   `NAME_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `VALUE_` varchar(300) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `REV_` int(11) NULL DEFAULT NULL,
+  `REV_` int(0) NULL DEFAULT NULL,
   PRIMARY KEY (`NAME_`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
 
@@ -355,7 +355,7 @@ CREATE TABLE `act_hi_actinst`  (
   `ASSIGNEE_` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `START_TIME_` datetime(3) NOT NULL,
   `END_TIME_` datetime(3) NULL DEFAULT NULL,
-  `DURATION_` bigint(20) NULL DEFAULT NULL,
+  `DURATION_` bigint(0) NULL DEFAULT NULL,
   `DELETE_REASON_` varchar(4000) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `TENANT_ID_` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT '',
   PRIMARY KEY (`ID_`) USING BTREE,
@@ -413,7 +413,7 @@ INSERT INTO `act_hi_actinst` VALUES ('fca9aad1-8ea1-11ed-8742-f20af69b3e23', 'ac
 DROP TABLE IF EXISTS `act_hi_attachment`;
 CREATE TABLE `act_hi_attachment`  (
   `ID_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-  `REV_` int(11) NULL DEFAULT NULL,
+  `REV_` int(0) NULL DEFAULT NULL,
   `USER_ID_` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `NAME_` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `DESCRIPTION_` varchar(4000) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
@@ -476,11 +476,11 @@ CREATE TABLE `act_hi_detail`  (
   `ACT_INST_ID_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `NAME_` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `VAR_TYPE_` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `REV_` int(11) NULL DEFAULT NULL,
+  `REV_` int(0) NULL DEFAULT NULL,
   `TIME_` datetime(3) NOT NULL,
   `BYTEARRAY_ID_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `DOUBLE_` double NULL DEFAULT NULL,
-  `LONG_` bigint(20) NULL DEFAULT NULL,
+  `LONG_` bigint(0) NULL DEFAULT NULL,
   `TEXT_` varchar(4000) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `TEXT2_` varchar(4000) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   PRIMARY KEY (`ID_`) USING BTREE,
@@ -604,7 +604,7 @@ CREATE TABLE `act_hi_procinst`  (
   `PROC_DEF_ID_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `START_TIME_` datetime(3) NOT NULL,
   `END_TIME_` datetime(3) NULL DEFAULT NULL,
-  `DURATION_` bigint(20) NULL DEFAULT NULL,
+  `DURATION_` bigint(0) NULL DEFAULT NULL,
   `START_USER_ID_` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `START_ACT_ID_` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `END_ACT_ID_` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
@@ -647,9 +647,9 @@ CREATE TABLE `act_hi_taskinst`  (
   `START_TIME_` datetime(3) NOT NULL,
   `CLAIM_TIME_` datetime(3) NULL DEFAULT NULL,
   `END_TIME_` datetime(3) NULL DEFAULT NULL,
-  `DURATION_` bigint(20) NULL DEFAULT NULL,
+  `DURATION_` bigint(0) NULL DEFAULT NULL,
   `DELETE_REASON_` varchar(4000) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `PRIORITY_` int(11) NULL DEFAULT NULL,
+  `PRIORITY_` int(0) NULL DEFAULT NULL,
   `DUE_DATE_` datetime(3) NULL DEFAULT NULL,
   `FORM_KEY_` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `CATEGORY_` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
@@ -690,10 +690,10 @@ CREATE TABLE `act_hi_varinst`  (
   `TASK_ID_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `NAME_` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `VAR_TYPE_` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `REV_` int(11) NULL DEFAULT NULL,
+  `REV_` int(0) NULL DEFAULT NULL,
   `BYTEARRAY_ID_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `DOUBLE_` double NULL DEFAULT NULL,
-  `LONG_` bigint(20) NULL DEFAULT NULL,
+  `LONG_` bigint(0) NULL DEFAULT NULL,
   `TEXT_` varchar(4000) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `TEXT2_` varchar(4000) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `CREATE_TIME_` datetime(3) NULL DEFAULT NULL,
@@ -772,7 +772,7 @@ DROP TABLE IF EXISTS `act_procdef_info`;
 CREATE TABLE `act_procdef_info`  (
   `ID_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `PROC_DEF_ID_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-  `REV_` int(11) NULL DEFAULT NULL,
+  `REV_` int(0) NULL DEFAULT NULL,
   `INFO_JSON_ID_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   PRIMARY KEY (`ID_`) USING BTREE,
   UNIQUE INDEX `ACT_UNIQ_INFO_PROCDEF`(`PROC_DEF_ID_`) USING BTREE,
@@ -808,13 +808,13 @@ INSERT INTO `act_re_deployment` VALUES ('9f33be7e-bf3a-11ed-ab8b-f20af69b3e23', 
 DROP TABLE IF EXISTS `act_re_model`;
 CREATE TABLE `act_re_model`  (
   `ID_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-  `REV_` int(11) NULL DEFAULT NULL,
+  `REV_` int(0) NULL DEFAULT NULL,
   `NAME_` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `KEY_` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `CATEGORY_` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `CREATE_TIME_` timestamp(3) NULL DEFAULT NULL,
   `LAST_UPDATE_TIME_` timestamp(3) NULL DEFAULT NULL,
-  `VERSION_` int(11) NULL DEFAULT NULL,
+  `VERSION_` int(0) NULL DEFAULT NULL,
   `META_INFO_` varchar(4000) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `DEPLOYMENT_ID_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `EDITOR_SOURCE_VALUE_ID_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
@@ -835,18 +835,18 @@ CREATE TABLE `act_re_model`  (
 DROP TABLE IF EXISTS `act_re_procdef`;
 CREATE TABLE `act_re_procdef`  (
   `ID_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-  `REV_` int(11) NULL DEFAULT NULL,
+  `REV_` int(0) NULL DEFAULT NULL,
   `CATEGORY_` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `NAME_` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `KEY_` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-  `VERSION_` int(11) NOT NULL,
+  `VERSION_` int(0) NOT NULL,
   `DEPLOYMENT_ID_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `RESOURCE_NAME_` varchar(4000) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `DGRM_RESOURCE_NAME_` varchar(4000) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `DESCRIPTION_` varchar(4000) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `HAS_START_FORM_KEY_` tinyint(4) NULL DEFAULT NULL,
-  `HAS_GRAPHICAL_NOTATION_` tinyint(4) NULL DEFAULT NULL,
-  `SUSPENSION_STATE_` int(11) NULL DEFAULT NULL,
+  `HAS_START_FORM_KEY_` tinyint(0) NULL DEFAULT NULL,
+  `HAS_GRAPHICAL_NOTATION_` tinyint(0) NULL DEFAULT NULL,
+  `SUSPENSION_STATE_` int(0) NULL DEFAULT NULL,
   `TENANT_ID_` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT '',
   `ENGINE_VERSION_` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   PRIMARY KEY (`ID_`) USING BTREE,
@@ -864,7 +864,7 @@ INSERT INTO `act_re_procdef` VALUES ('activity:1:9f351e10-bf3a-11ed-ab8b-f20af69
 DROP TABLE IF EXISTS `act_ru_deadletter_job`;
 CREATE TABLE `act_ru_deadletter_job`  (
   `ID_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-  `REV_` int(11) NULL DEFAULT NULL,
+  `REV_` int(0) NULL DEFAULT NULL,
   `TYPE_` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `EXCLUSIVE_` tinyint(1) NULL DEFAULT NULL,
   `EXECUTION_ID_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
@@ -884,8 +884,8 @@ CREATE TABLE `act_ru_deadletter_job`  (
   INDEX `ACT_FK_DEADLETTER_JOB_EXCEPTION`(`EXCEPTION_STACK_ID_`) USING BTREE,
   CONSTRAINT `ACT_FK_DEADLETTER_JOB_EXCEPTION` FOREIGN KEY (`EXCEPTION_STACK_ID_`) REFERENCES `act_ge_bytearray` (`ID_`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `ACT_FK_DEADLETTER_JOB_EXECUTION` FOREIGN KEY (`EXECUTION_ID_`) REFERENCES `act_ru_execution` (`ID_`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `ACT_FK_DEADLETTER_JOB_PROCESS_INSTANCE` FOREIGN KEY (`PROCESS_INSTANCE_ID_`) REFERENCES `act_ru_execution` (`ID_`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `ACT_FK_DEADLETTER_JOB_PROC_DEF` FOREIGN KEY (`PROC_DEF_ID_`) REFERENCES `act_re_procdef` (`ID_`) ON DELETE RESTRICT ON UPDATE RESTRICT
+  CONSTRAINT `ACT_FK_DEADLETTER_JOB_PROC_DEF` FOREIGN KEY (`PROC_DEF_ID_`) REFERENCES `act_re_procdef` (`ID_`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `ACT_FK_DEADLETTER_JOB_PROCESS_INSTANCE` FOREIGN KEY (`PROCESS_INSTANCE_ID_`) REFERENCES `act_ru_execution` (`ID_`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -894,7 +894,7 @@ CREATE TABLE `act_ru_deadletter_job`  (
 DROP TABLE IF EXISTS `act_ru_event_subscr`;
 CREATE TABLE `act_ru_event_subscr`  (
   `ID_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-  `REV_` int(11) NULL DEFAULT NULL,
+  `REV_` int(0) NULL DEFAULT NULL,
   `EVENT_TYPE_` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `EVENT_NAME_` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `EXECUTION_ID_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
@@ -916,7 +916,7 @@ CREATE TABLE `act_ru_event_subscr`  (
 DROP TABLE IF EXISTS `act_ru_execution`;
 CREATE TABLE `act_ru_execution`  (
   `ID_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-  `REV_` int(11) NULL DEFAULT NULL,
+  `REV_` int(0) NULL DEFAULT NULL,
   `PROC_INST_ID_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `BUSINESS_KEY_` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `PARENT_ID_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
@@ -924,27 +924,27 @@ CREATE TABLE `act_ru_execution`  (
   `SUPER_EXEC_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `ROOT_PROC_INST_ID_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `ACT_ID_` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `IS_ACTIVE_` tinyint(4) NULL DEFAULT NULL,
-  `IS_CONCURRENT_` tinyint(4) NULL DEFAULT NULL,
-  `IS_SCOPE_` tinyint(4) NULL DEFAULT NULL,
-  `IS_EVENT_SCOPE_` tinyint(4) NULL DEFAULT NULL,
-  `IS_MI_ROOT_` tinyint(4) NULL DEFAULT NULL,
-  `SUSPENSION_STATE_` int(11) NULL DEFAULT NULL,
-  `CACHED_ENT_STATE_` int(11) NULL DEFAULT NULL,
+  `IS_ACTIVE_` tinyint(0) NULL DEFAULT NULL,
+  `IS_CONCURRENT_` tinyint(0) NULL DEFAULT NULL,
+  `IS_SCOPE_` tinyint(0) NULL DEFAULT NULL,
+  `IS_EVENT_SCOPE_` tinyint(0) NULL DEFAULT NULL,
+  `IS_MI_ROOT_` tinyint(0) NULL DEFAULT NULL,
+  `SUSPENSION_STATE_` int(0) NULL DEFAULT NULL,
+  `CACHED_ENT_STATE_` int(0) NULL DEFAULT NULL,
   `TENANT_ID_` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT '',
   `NAME_` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `START_TIME_` datetime(3) NULL DEFAULT NULL,
   `START_USER_ID_` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `LOCK_TIME_` timestamp(3) NULL DEFAULT NULL,
-  `IS_COUNT_ENABLED_` tinyint(4) NULL DEFAULT NULL,
-  `EVT_SUBSCR_COUNT_` int(11) NULL DEFAULT NULL,
-  `TASK_COUNT_` int(11) NULL DEFAULT NULL,
-  `JOB_COUNT_` int(11) NULL DEFAULT NULL,
-  `TIMER_JOB_COUNT_` int(11) NULL DEFAULT NULL,
-  `SUSP_JOB_COUNT_` int(11) NULL DEFAULT NULL,
-  `DEADLETTER_JOB_COUNT_` int(11) NULL DEFAULT NULL,
-  `VAR_COUNT_` int(11) NULL DEFAULT NULL,
-  `ID_LINK_COUNT_` int(11) NULL DEFAULT NULL,
+  `IS_COUNT_ENABLED_` tinyint(0) NULL DEFAULT NULL,
+  `EVT_SUBSCR_COUNT_` int(0) NULL DEFAULT NULL,
+  `TASK_COUNT_` int(0) NULL DEFAULT NULL,
+  `JOB_COUNT_` int(0) NULL DEFAULT NULL,
+  `TIMER_JOB_COUNT_` int(0) NULL DEFAULT NULL,
+  `SUSP_JOB_COUNT_` int(0) NULL DEFAULT NULL,
+  `DEADLETTER_JOB_COUNT_` int(0) NULL DEFAULT NULL,
+  `VAR_COUNT_` int(0) NULL DEFAULT NULL,
+  `ID_LINK_COUNT_` int(0) NULL DEFAULT NULL,
   PRIMARY KEY (`ID_`) USING BTREE,
   INDEX `ACT_IDX_EXEC_BUSKEY`(`BUSINESS_KEY_`) USING BTREE,
   INDEX `ACT_IDC_EXEC_ROOT`(`ROOT_PROC_INST_ID_`) USING BTREE,
@@ -964,7 +964,7 @@ CREATE TABLE `act_ru_execution`  (
 DROP TABLE IF EXISTS `act_ru_identitylink`;
 CREATE TABLE `act_ru_identitylink`  (
   `ID_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-  `REV_` int(11) NULL DEFAULT NULL,
+  `REV_` int(0) NULL DEFAULT NULL,
   `GROUP_ID_` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `TYPE_` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `USER_ID_` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
@@ -1008,7 +1008,7 @@ CREATE TABLE `act_ru_integration`  (
 DROP TABLE IF EXISTS `act_ru_job`;
 CREATE TABLE `act_ru_job`  (
   `ID_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-  `REV_` int(11) NULL DEFAULT NULL,
+  `REV_` int(0) NULL DEFAULT NULL,
   `TYPE_` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `LOCK_EXP_TIME_` timestamp(3) NULL DEFAULT NULL,
   `LOCK_OWNER_` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
@@ -1016,7 +1016,7 @@ CREATE TABLE `act_ru_job`  (
   `EXECUTION_ID_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `PROCESS_INSTANCE_ID_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `PROC_DEF_ID_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `RETRIES_` int(11) NULL DEFAULT NULL,
+  `RETRIES_` int(0) NULL DEFAULT NULL,
   `EXCEPTION_STACK_ID_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `EXCEPTION_MSG_` varchar(4000) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `DUEDATE_` timestamp(3) NULL DEFAULT NULL,
@@ -1031,8 +1031,8 @@ CREATE TABLE `act_ru_job`  (
   INDEX `ACT_FK_JOB_EXCEPTION`(`EXCEPTION_STACK_ID_`) USING BTREE,
   CONSTRAINT `ACT_FK_JOB_EXCEPTION` FOREIGN KEY (`EXCEPTION_STACK_ID_`) REFERENCES `act_ge_bytearray` (`ID_`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `ACT_FK_JOB_EXECUTION` FOREIGN KEY (`EXECUTION_ID_`) REFERENCES `act_ru_execution` (`ID_`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `ACT_FK_JOB_PROCESS_INSTANCE` FOREIGN KEY (`PROCESS_INSTANCE_ID_`) REFERENCES `act_ru_execution` (`ID_`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `ACT_FK_JOB_PROC_DEF` FOREIGN KEY (`PROC_DEF_ID_`) REFERENCES `act_re_procdef` (`ID_`) ON DELETE RESTRICT ON UPDATE RESTRICT
+  CONSTRAINT `ACT_FK_JOB_PROC_DEF` FOREIGN KEY (`PROC_DEF_ID_`) REFERENCES `act_re_procdef` (`ID_`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `ACT_FK_JOB_PROCESS_INSTANCE` FOREIGN KEY (`PROCESS_INSTANCE_ID_`) REFERENCES `act_ru_execution` (`ID_`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -1041,13 +1041,13 @@ CREATE TABLE `act_ru_job`  (
 DROP TABLE IF EXISTS `act_ru_suspended_job`;
 CREATE TABLE `act_ru_suspended_job`  (
   `ID_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-  `REV_` int(11) NULL DEFAULT NULL,
+  `REV_` int(0) NULL DEFAULT NULL,
   `TYPE_` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `EXCLUSIVE_` tinyint(1) NULL DEFAULT NULL,
   `EXECUTION_ID_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `PROCESS_INSTANCE_ID_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `PROC_DEF_ID_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `RETRIES_` int(11) NULL DEFAULT NULL,
+  `RETRIES_` int(0) NULL DEFAULT NULL,
   `EXCEPTION_STACK_ID_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `EXCEPTION_MSG_` varchar(4000) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `DUEDATE_` timestamp(3) NULL DEFAULT NULL,
@@ -1062,8 +1062,8 @@ CREATE TABLE `act_ru_suspended_job`  (
   INDEX `ACT_FK_SUSPENDED_JOB_EXCEPTION`(`EXCEPTION_STACK_ID_`) USING BTREE,
   CONSTRAINT `ACT_FK_SUSPENDED_JOB_EXCEPTION` FOREIGN KEY (`EXCEPTION_STACK_ID_`) REFERENCES `act_ge_bytearray` (`ID_`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `ACT_FK_SUSPENDED_JOB_EXECUTION` FOREIGN KEY (`EXECUTION_ID_`) REFERENCES `act_ru_execution` (`ID_`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `ACT_FK_SUSPENDED_JOB_PROCESS_INSTANCE` FOREIGN KEY (`PROCESS_INSTANCE_ID_`) REFERENCES `act_ru_execution` (`ID_`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `ACT_FK_SUSPENDED_JOB_PROC_DEF` FOREIGN KEY (`PROC_DEF_ID_`) REFERENCES `act_re_procdef` (`ID_`) ON DELETE RESTRICT ON UPDATE RESTRICT
+  CONSTRAINT `ACT_FK_SUSPENDED_JOB_PROC_DEF` FOREIGN KEY (`PROC_DEF_ID_`) REFERENCES `act_re_procdef` (`ID_`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `ACT_FK_SUSPENDED_JOB_PROCESS_INSTANCE` FOREIGN KEY (`PROCESS_INSTANCE_ID_`) REFERENCES `act_ru_execution` (`ID_`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -1072,7 +1072,7 @@ CREATE TABLE `act_ru_suspended_job`  (
 DROP TABLE IF EXISTS `act_ru_task`;
 CREATE TABLE `act_ru_task`  (
   `ID_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-  `REV_` int(11) NULL DEFAULT NULL,
+  `REV_` int(0) NULL DEFAULT NULL,
   `EXECUTION_ID_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `PROC_INST_ID_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `PROC_DEF_ID_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
@@ -1083,11 +1083,11 @@ CREATE TABLE `act_ru_task`  (
   `OWNER_` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `ASSIGNEE_` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `DELEGATION_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `PRIORITY_` int(11) NULL DEFAULT NULL,
+  `PRIORITY_` int(0) NULL DEFAULT NULL,
   `CREATE_TIME_` timestamp(3) NULL DEFAULT NULL,
   `DUE_DATE_` datetime(3) NULL DEFAULT NULL,
   `CATEGORY_` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `SUSPENSION_STATE_` int(11) NULL DEFAULT NULL,
+  `SUSPENSION_STATE_` int(0) NULL DEFAULT NULL,
   `TENANT_ID_` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT '',
   `FORM_KEY_` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `CLAIM_TIME_` datetime(3) NULL DEFAULT NULL,
@@ -1107,7 +1107,7 @@ CREATE TABLE `act_ru_task`  (
 DROP TABLE IF EXISTS `act_ru_timer_job`;
 CREATE TABLE `act_ru_timer_job`  (
   `ID_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-  `REV_` int(11) NULL DEFAULT NULL,
+  `REV_` int(0) NULL DEFAULT NULL,
   `TYPE_` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `LOCK_EXP_TIME_` timestamp(3) NULL DEFAULT NULL,
   `LOCK_OWNER_` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
@@ -1115,7 +1115,7 @@ CREATE TABLE `act_ru_timer_job`  (
   `EXECUTION_ID_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `PROCESS_INSTANCE_ID_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `PROC_DEF_ID_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `RETRIES_` int(11) NULL DEFAULT NULL,
+  `RETRIES_` int(0) NULL DEFAULT NULL,
   `EXCEPTION_STACK_ID_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `EXCEPTION_MSG_` varchar(4000) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `DUEDATE_` timestamp(3) NULL DEFAULT NULL,
@@ -1130,8 +1130,8 @@ CREATE TABLE `act_ru_timer_job`  (
   INDEX `ACT_FK_TIMER_JOB_EXCEPTION`(`EXCEPTION_STACK_ID_`) USING BTREE,
   CONSTRAINT `ACT_FK_TIMER_JOB_EXCEPTION` FOREIGN KEY (`EXCEPTION_STACK_ID_`) REFERENCES `act_ge_bytearray` (`ID_`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `ACT_FK_TIMER_JOB_EXECUTION` FOREIGN KEY (`EXECUTION_ID_`) REFERENCES `act_ru_execution` (`ID_`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `ACT_FK_TIMER_JOB_PROCESS_INSTANCE` FOREIGN KEY (`PROCESS_INSTANCE_ID_`) REFERENCES `act_ru_execution` (`ID_`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `ACT_FK_TIMER_JOB_PROC_DEF` FOREIGN KEY (`PROC_DEF_ID_`) REFERENCES `act_re_procdef` (`ID_`) ON DELETE RESTRICT ON UPDATE RESTRICT
+  CONSTRAINT `ACT_FK_TIMER_JOB_PROC_DEF` FOREIGN KEY (`PROC_DEF_ID_`) REFERENCES `act_re_procdef` (`ID_`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `ACT_FK_TIMER_JOB_PROCESS_INSTANCE` FOREIGN KEY (`PROCESS_INSTANCE_ID_`) REFERENCES `act_ru_execution` (`ID_`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -1140,7 +1140,7 @@ CREATE TABLE `act_ru_timer_job`  (
 DROP TABLE IF EXISTS `act_ru_variable`;
 CREATE TABLE `act_ru_variable`  (
   `ID_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-  `REV_` int(11) NULL DEFAULT NULL,
+  `REV_` int(0) NULL DEFAULT NULL,
   `TYPE_` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `NAME_` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `EXECUTION_ID_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
@@ -1148,7 +1148,7 @@ CREATE TABLE `act_ru_variable`  (
   `TASK_ID_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `BYTEARRAY_ID_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `DOUBLE_` double NULL DEFAULT NULL,
-  `LONG_` bigint(20) NULL DEFAULT NULL,
+  `LONG_` bigint(0) NULL DEFAULT NULL,
   `TEXT_` varchar(4000) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `TEXT2_` varchar(4000) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   PRIMARY KEY (`ID_`) USING BTREE,
@@ -1229,16 +1229,18 @@ CREATE TABLE `activity`  (
   `reson` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `state` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `user_id` varchar(19) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `img` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `external_links` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of activity
 -- ----------------------------
-INSERT INTO `activity` VALUES ('1612095616252452865', '2023-01-08 22:35:21', '2023-01-08 22:35:21', '篮球赛2', '2023-01-08 20:55:00', '2023-01-08 20:56:00', '篮球赛', '4', '2019131101');
-INSERT INTO `activity` VALUES ('1612131249939316737', '2023-01-09 00:56:57', '2023-01-09 00:56:57', '篮球赛2', '2023-01-08 20:55:00', '2023-01-08 20:56:00', '篮球赛', '4', '2019131101');
-INSERT INTO `activity` VALUES ('1612132841640009730', '2023-01-09 01:03:16', '2023-01-09 01:03:16', '篮球赛2', '2023-01-08 20:55:00', '2023-01-08 20:56:00', '篮球赛', '4', '2019131101');
-INSERT INTO `activity` VALUES ('1634187527859515394', '2023-03-10 21:40:43', '2023-03-10 21:40:43', '篮球赛2', '2023-03-18 20:55:00', '2023-03-28 20:56:00', '篮球赛', '4', '2019131101');
+INSERT INTO `activity` VALUES ('1612095616252452865', '2023-01-08 22:35:21', '2023-01-08 22:35:21', '3v3篮球赛', '2023-01-08 20:55:00', '2023-01-08 20:56:00', '比赛将于一月二号在一号篮球场举行，欢迎所有篮球爱好者前来观赛和参赛。', '4', '2019131101', '/file/default/a.png', 'https://mp.weixin.qq.com/s/tfTnBrKo_F-eUfYV1FvTfQ');
+INSERT INTO `activity` VALUES ('1612131249939316737', '2023-01-09 00:56:57', '2023-01-09 00:56:57', '电影欣赏活动', '2023-01-08 20:55:00', '2023-01-08 20:56:00', '每周播放不同类型的电影，让同学们在忙碌的学习和工作中放松身心。', '4', '2019131101', '/file/default/a.png', 'https://mp.weixin.qq.com/s/tfTnBrKo_F-eUfYV1FvTfQ');
+INSERT INTO `activity` VALUES ('1612132841640009730', '2023-01-09 01:03:16', '2023-01-09 01:03:16', '社交舞大赛', '2023-01-08 20:55:00', '2023-01-08 20:56:00', '邀请各个高校社交舞团队参加，为同学们提供一个展示才艺和交流的平台。', '4', '2019131101', '/file/default/a.png', 'https://mp.weixin.qq.com/s/tfTnBrKo_F-eUfYV1FvTfQ');
+INSERT INTO `activity` VALUES ('1634187527859515394', '2023-03-10 21:40:43', '2023-03-10 21:40:43', '美食制作和品尝活动', '2023-03-18 20:55:00', '2023-03-28 20:56:00', '引导同学们关注饮食健康，提高烹饪技能。', '4', '2019131101', '/file/default/a.png', 'https://mp.weixin.qq.com/s/tfTnBrKo_F-eUfYV1FvTfQ');
 
 -- ----------------------------
 -- Table structure for admin
@@ -1250,7 +1252,7 @@ CREATE TABLE `admin`  (
   `update_time` datetime(0) NOT NULL,
   `is_delete` tinyint(1) NOT NULL DEFAULT 0,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `grade` int(11) NOT NULL,
+  `grade` int(0) NOT NULL,
   `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `avatar` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'http://localhost:8001/file/default/img.png',
   `num` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
@@ -1272,7 +1274,7 @@ CREATE TABLE `audit`  (
   `update_time` datetime(0) NOT NULL,
   `is_delete` tinyint(1) NOT NULL DEFAULT 0,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `grade` int(11) NOT NULL,
+  `grade` int(0) NOT NULL,
   `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `avatar` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'http://localhost:8002/file/default/img.png',
   `num` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
@@ -1329,7 +1331,7 @@ CREATE TABLE `organization`  (
 -- Records of organization
 -- ----------------------------
 INSERT INTO `organization` VALUES ('10001', '2022-12-29 19:33:03', '2022-12-29 19:33:05', 0, '篮球社', 'http://localhost:8001/file/default/img.png', '2019131101', 'kyle', '1001');
-INSERT INTO `organization` VALUES ('10002', '2022-12-29 19:36:29', '2022-12-29 19:36:32', 0, '足球社', 'http://localhost:8001/file/default/img.png', ' 2019131103', ' jack', '1002');
+INSERT INTO `organization` VALUES ('10002', '2022-12-29 19:36:29', '2022-12-29 19:36:32', 0, '足球社', 'http://localhost:8001/file/default/img.png', '2019131103', ' jack', '1002');
 INSERT INTO `organization` VALUES ('1608787531370917890', '2022-12-30 19:30:12', '2022-12-30 20:22:22', 0, '000', '', '1608488995873943554', 'kk', '1608787531370917889');
 
 -- ----------------------------
@@ -1436,19 +1438,55 @@ CREATE TABLE `user`  (
   `num` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `organization_id` varchar(19) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `organization_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `is_leader` char(3) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('1608488995873943554', '2022-12-29 23:43:56', '2022-12-31 15:43:40', 0, 'kk', 'e10adc3949ba59abbe56e057f20f883e', '', '2019131104', '10002', '足球社', '0');
-INSERT INTO `user` VALUES ('1609841559014019073', '2023-01-02 17:18:32', '2023-01-02 17:18:32', 1, 't1', '96e79218965eb72c92a549dd5a330112', 'http://localhost:8001/file/img/2023/01/02/68b5587f969044a1a604a64726ce3f29.png', 't1', '1608787531370917890', '000', '0');
-INSERT INTO `user` VALUES ('1634170580040278017', '2023-03-10 20:33:22', '2023-03-10 20:33:22', 0, '周是', 'e10adc3949ba59abbe56e057f20f883e', 'http://localhost:8001/file/img/2023/03/10/02605c42c1cd478b935b41eff6642600.png', '2019131102', '10001', '篮球社', '1');
-INSERT INTO `user` VALUES ('2019131101', '2022-12-29 17:47:21', '2023-03-11 22:36:19', 0, 'kyle', 'c56d0e9a7ccec67b4ea131655038d604', 'http://localhost:8001/file/img/2023/03/11/1242b19dea654a1c8b31ef85df480e6a.png', '2019131101', '10001', '篮球社', '1');
-INSERT INTO `user` VALUES ('2019131102', '2022-12-29 19:34:24', '2022-12-29 19:34:26', 0, 'tom', 'e10adc3949ba59abbe56e057f20f883e', 'http://localhost:8001/file/default/img.png', '2019131102', '10001', '篮球社', '0');
-INSERT INTO `user` VALUES ('2019131103', '2022-12-29 22:09:42', '2022-12-29 22:09:45', 0, 'jack', 'e10adc3949ba59abbe56e057f20f883e', 'http://localhost:8001/file/default/img.png', '2019131103', '10002', '足球社', '1');
+INSERT INTO `user` VALUES ('1608488995873943554', '2022-12-29 23:43:56', '2022-12-31 15:43:40', 0, 'kk', 'e10adc3949ba59abbe56e057f20f883e', '', '2019131104', '10002', '足球社');
+INSERT INTO `user` VALUES ('1609841559014019073', '2023-01-02 17:18:32', '2023-01-02 17:18:32', 0, 't1', '96e79218965eb72c92a549dd5a330112', '/file/img/2023/01/02/68b5587f969044a1a604a64726ce3f29.png', 't1', '1608787531370917890', '000');
+INSERT INTO `user` VALUES ('1634170580040278017', '2023-03-10 20:33:22', '2023-03-10 20:33:22', 0, '周是', 'e10adc3949ba59abbe56e057f20f883e', '/file/img/2023/03/10/02605c42c1cd478b935b41eff6642600.png', '2019131102', '10001', '篮球社');
+INSERT INTO `user` VALUES ('1636260731457060865', '2023-03-16 14:58:53', '2023-03-16 14:58:53', 0, '3456345', 'f6c7140602d0dfc88e76804c4aae64b5', '/file/img/2023/03/16/9f0b3a979b0543b3906f8b9fc868b829.png', '65356', '10001', '篮球社');
+INSERT INTO `user` VALUES ('2019131101', '2022-12-29 17:47:21', '2023-03-13 13:41:11', 0, 'kyle', '96e79218965eb72c92a549dd5a330112', '/file/default/a.png', '2019131101', '10001', '篮球社');
+INSERT INTO `user` VALUES ('2019131102', '2022-12-29 19:34:24', '2022-12-29 19:34:26', 0, 'tom', 'e10adc3949ba59abbe56e057f20f883e', '/file/default/img.png', '2019131102', '10001', '篮球社');
+INSERT INTO `user` VALUES ('2019131103', '2022-12-29 22:09:42', '2022-12-29 22:09:45', 0, 'jack', 'e10adc3949ba59abbe56e057f20f883e', '/file/default/img.png', '2019131103', '10002', '足球社');
+
+-- ----------------------------
+-- Table structure for user_act
+-- ----------------------------
+DROP TABLE IF EXISTS `user_act`;
+CREATE TABLE `user_act`  (
+  `user_id` varbinary(19) NOT NULL,
+  `act_id` varchar(19) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  PRIMARY KEY (`user_id`, `act_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for user_ven_clock
+-- ----------------------------
+DROP TABLE IF EXISTS `user_ven_clock`;
+CREATE TABLE `user_ven_clock`  (
+  `user_id` varchar(19) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `venue_id` varchar(19) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `create_time` datetime(0) NOT NULL,
+  `is_delete` tinyint(1) NOT NULL DEFAULT 0,
+  `remark` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  PRIMARY KEY (`user_id`, `venue_id`, `create_time`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for user_ven_coll
+-- ----------------------------
+DROP TABLE IF EXISTS `user_ven_coll`;
+CREATE TABLE `user_ven_coll`  (
+  `user_id` varchar(19) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `venue_id` varchar(19) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `create_time` datetime(0) NOT NULL,
+  `is_delete` tinyint(1) NOT NULL DEFAULT 0,
+  `remark` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  PRIMARY KEY (`user_id`, `venue_id`, `create_time`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for venue
@@ -1472,6 +1510,43 @@ CREATE TABLE `venue`  (
 INSERT INTO `venue` VALUES ('1', '2022-12-31 22:11:37', '2023-01-01 16:25:42', 0, '1', '1号场地', 1, '1');
 INSERT INTO `venue` VALUES ('2', '2023-01-01 16:48:41', '2023-01-08 22:01:02', 0, '2', '2号场地', 1, '1');
 INSERT INTO `venue` VALUES ('3', '2023-01-01 16:48:58', '2023-01-08 22:00:59', 0, '3', '3号场地', 1, '1');
+INSERT INTO `venue` VALUES ('4', '2023-04-03 15:15:36', '2023-04-03 15:15:39', 0, '4', '篮球场1', 1, '2');
+INSERT INTO `venue` VALUES ('5', '2023-04-03 17:15:27', '2023-04-03 17:15:29', 0, '5', '足球场1', 1, '2');
+
+-- ----------------------------
+-- Table structure for venue_clock
+-- ----------------------------
+DROP TABLE IF EXISTS `venue_clock`;
+CREATE TABLE `venue_clock`  (
+  `id` varchar(19) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `user_id` varchar(19) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `venue_id` varchar(19) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `create_time` datetime(0) NOT NULL,
+  `venue_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of venue_clock
+-- ----------------------------
+INSERT INTO `venue_clock` VALUES ('1642769383256883202', '2019131101', '1', '2023-04-03 14:01:57', '');
+INSERT INTO `venue_clock` VALUES ('1642770175888064514', '2019131101', '1', '2023-04-03 14:05:06', '');
+INSERT INTO `venue_clock` VALUES ('1642788023914151938', '2019131101', '4', '2023-04-03 15:16:01', '篮球场1');
+INSERT INTO `venue_clock` VALUES ('1642789721088933890', '2019131101', '4', '2023-04-03 15:22:46', '篮球场1');
+INSERT INTO `venue_clock` VALUES ('1642790380865536002', '2019131101', '4', '2023-04-03 15:25:23', '篮球场1');
+INSERT INTO `venue_clock` VALUES ('1642790395134558210', '2019131101', '4', '2023-04-03 15:25:26', '篮球场1');
+INSERT INTO `venue_clock` VALUES ('1642791592063107073', '2019131101', '4', '2023-04-03 15:30:12', '篮球场1');
+INSERT INTO `venue_clock` VALUES ('1642791598912405505', '2019131101', '4', '2023-04-03 15:30:13', '篮球场1');
+INSERT INTO `venue_clock` VALUES ('1642791631720251394', '2019131101', '4', '2023-04-03 15:30:21', '篮球场1');
+INSERT INTO `venue_clock` VALUES ('1642791633880317953', '2019131101', '4', '2023-04-03 15:30:22', '篮球场1');
+INSERT INTO `venue_clock` VALUES ('1642791635901972481', '2019131101', '4', '2023-04-03 15:30:22', '篮球场1');
+INSERT INTO `venue_clock` VALUES ('1642791637906849793', '2019131101', '4', '2023-04-03 15:30:23', '篮球场1');
+INSERT INTO `venue_clock` VALUES ('1642791639886561282', '2019131101', '4', '2023-04-03 15:30:23', '篮球场1');
+INSERT INTO `venue_clock` VALUES ('1642791640826085377', '2019131101', '4', '2023-04-03 15:30:23', '篮球场1');
+INSERT INTO `venue_clock` VALUES ('1642791641589448706', '2019131101', '4', '2023-04-03 15:30:24', '篮球场1');
+INSERT INTO `venue_clock` VALUES ('1642791642503806977', '2019131101', '4', '2023-04-03 15:30:24', '篮球场1');
+INSERT INTO `venue_clock` VALUES ('1642818201117753345', '2019131101', '5', '2023-04-03 17:15:56', '足球场1');
+INSERT INTO `venue_clock` VALUES ('1642818205551132673', '2019131101', '5', '2023-04-03 17:15:57', '足球场1');
 
 -- ----------------------------
 -- Table structure for venue_facility

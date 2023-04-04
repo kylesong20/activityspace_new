@@ -2,7 +2,9 @@ package com.kyle.venue.service;
 
 import com.kyle.venue.entity.VenueClock;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.kyle.venue.entity.vo.VenueClockCount;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,4 +18,6 @@ import java.util.Map;
 public interface VenueClockService extends IService<VenueClock> {
 
     Map<String, Object> pageClock(long current, long limit, String userId);
+
+    List<VenueClockCount> venueClockCount();
 }

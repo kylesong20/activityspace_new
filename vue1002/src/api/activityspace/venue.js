@@ -77,10 +77,16 @@ export default {
     })
   },
   // 同步map
-  sync(venue) {
+  sync() {
     return request({
       url: `/venue/venue/syncMap`,
       method: 'post'
+    })
+  },
+  mapClock() {
+    return request({
+      url: `/venue/clock/mapClock`,
+      method: 'get'
     })
   }
 

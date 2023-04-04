@@ -7,6 +7,7 @@ import com.kyle.util.R;
 import com.kyle.venue.entity.Venue;
 import com.kyle.venue.entity.VenueClock;
 import com.kyle.venue.entity.vo.GroupQuery;
+import com.kyle.venue.entity.vo.VenueClockCount;
 import com.kyle.venue.mapper.VenueClockMapper;
 import com.kyle.venue.service.VenueClockService;
 import com.kyle.venue.service.VenueService;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -52,6 +54,12 @@ public class VenueClockController {
         String userId = tokenManager.getUserIDToken(token);
         Map<String, Object> map = venueClockService.pageClock(current, limit ,userId);
         return R.ok().data("total",map.get("total")).data("rows",map.get("rows"));
+    }
+
+    @GetMapping("mapClock")
+    public R mapClock(){
+        List<VenueClockCount> venueClockCounts = venueClockService.venueClockCount();
+        return R.ok().data("venueClockCounts",venueClockCounts);
     }
 
 }

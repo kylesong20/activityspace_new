@@ -7,11 +7,30 @@
 <script>
 import geoJson from '@/geojson/gdkj'
 import echarts from 'echarts'
+import venue from '@/api/activityspace/venue'
 export default {
+  data() {
+    return {
+      dataCount: []
+    }
+  },
+  created() {
+    console.log(this.dataCount)
+  },
   mounted() {
-    this.initMap()
+    this.initData()
   },
   methods: {
+    async initData() {
+      try {
+        const res = await venue.mapClock()
+        this.dataCount = res.data.venueClockCounts
+        console.log(res.data.venueClockCounts)
+        this.initMap()
+      } catch (error) {
+        console.error(error)
+      }
+    },
     initMap() {
       console.log(geoJson)
       const chartDom = document.getElementById('gdkjMap')// 这里放的“gdkjMap”就是你上方创建盒子的id
@@ -21,6 +40,9 @@ export default {
       myChart.hideLoading()// 下面这个geoJSON就是上面通过import 引入的自己制作的mapData.js文件
       echarts.registerMap('GDKJ', geoJson.mapData)
       console.log(echarts)
+      const _this = this
+      console.log(this.dataCount)
+      console.log(_this.dataCount)
       myChart.setOption(option = {
         tooltip: {
           trigger: 'item',
@@ -37,19 +59,19 @@ export default {
           itemWidth: 12,
           itemHeight: 12,
           splitList: [
-            { start: 0, end: 20, label: '无人踏足此处', color: '#29A4D7' }, {
+            { start: 0, end: 20, label: '人迹罕至', color: '#b1d7c5' }, {
               start: 20,
               end: 50,
               label: '寥寥无几',
-              color: '#E6C249'
+              color: '#84c3b7'
             },
-            { start: 50, end: 60, label: '舒适', color: '#DD970B' }, {
+            { start: 50, end: 60, label: '舒适', color: '#58afa3' }, {
               start: 60,
               end: 80,
               label: '人来人往',
-              color: '#5934EC'
+              color: '#508b9b'
             },
-            { start: 80, end: 100, label: '人山人海', color: '#B52621' }
+            { start: 80, end: 100, label: '人山人海', color: '#507b87' }
           ],
           textStyle: {
             color: '#1e1e1e'
@@ -69,7 +91,7 @@ export default {
                 textStyle: {
                   fontWeight: 'normal',
                   fontSize: 12,
-                  color: '#6e8788'
+                  color: '#000000'
                 }
               }
             },
@@ -89,52 +111,7 @@ export default {
                 borderColor: '#1c1c1c'// 边界线颜色
               }
             },
-            data: [
-              {
-                name: '篮1',
-                value: 10
-              },
-              {
-                name: '篮2',
-                value: 6
-              },
-              {
-                name: '篮3',
-                value: 6
-              },
-              {
-                name: '排1',
-                value: 20
-              },
-              {
-                name: '排2',
-                value: 20
-              },
-              {
-                name: '网1',
-                value: 4
-              },
-              {
-                name: '网2',
-                value: 6
-              },
-              {
-                name: '网3',
-                value: 7
-              },
-              {
-                name: '足球场1',
-                value: 50
-              },
-              {
-                name: '风雨操场',
-                value: 25
-              },
-              {
-                name: '三饭',
-                value: 80
-              }
-            ]
+            data: _this.dataCount
           }
         ]
       })

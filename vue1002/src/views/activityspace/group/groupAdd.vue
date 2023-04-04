@@ -96,7 +96,7 @@ export default {
             message: '修改成功!'
           })
           this.$router.push({
-            path: '/group/groupList'
+            path: '/venue/groupList'
           })
         })
     },
@@ -110,7 +110,7 @@ export default {
             message: '添加成功!'
           })
           this.$router.push({
-            path: '/group/groupList'
+            path: '/venue/groupList'
           })
         })
     },

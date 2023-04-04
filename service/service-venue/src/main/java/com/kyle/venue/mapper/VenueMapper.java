@@ -18,7 +18,7 @@ import org.apache.ibatis.annotations.Select;
  * @since 2022-12-31
  */
 public interface VenueMapper extends BaseMapper<Venue> {
-    @Select("select v.*,vg.`name` groupName from venue v,venue_group vg where v.group_id = vg.id ${ew.customSqlSegment}")
+    @Select("select v.*,vg.`name` groupName from venue v join venue_group vg on v.group_id = vg.id ${ew.customSqlSegment}")
     IPage<VenueGroupVo> pageVenueGroupCondition(IPage<VenueGroupVo> venuePage,@Param(Constants.WRAPPER) QueryWrapper<Venue> venueQueryWrapper);
 
     @Select("select v.*,vg.`name` groupName from venue v,venue_group vg where v.group_id = vg.id and v.id = #{id}  ")

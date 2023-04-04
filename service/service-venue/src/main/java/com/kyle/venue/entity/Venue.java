@@ -45,5 +45,6 @@ public class Venue implements Serializable {
 
     private String groupId;
 
+    private String mapJson;
 
 }

@@ -44,6 +44,7 @@
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" @click="getList()">查询</el-button>
         <el-button type="default" @click="resetData()">清空</el-button>
+        <el-button type="primary" @click="syncMap()">同步场地地图</el-button>
       </el-form-item>
     </el-form>
 
@@ -122,6 +123,11 @@ export default {
     this.getList()
   },
   methods: {
+    syncMap() {
+      venue.sync().then(res => {
+        this.$message.success('同步成功')
+      })
+    },
     getList(page = 1) {
       this.page = page
       venue.getVenueGroupListPage(this.page, this.limit, this.VenueQuery)

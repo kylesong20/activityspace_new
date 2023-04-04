@@ -22,4 +22,6 @@ public interface VenueService extends IService<Venue> {
     Map<String, Object> pageVenueGroupCondition(long current, long limit, VenueGroupVo venueGroupVo, VenueQuery venueQuery);
 
     VenueGroupVo getVenueGroupById(String id);
+
+    boolean syncMap();
 }

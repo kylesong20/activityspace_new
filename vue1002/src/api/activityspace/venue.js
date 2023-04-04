@@ -75,6 +75,13 @@ export default {
       method: 'post',
       data: venue
     })
+  },
+  // 同步map
+  sync(venue) {
+    return request({
+      url: `/venue/venue/syncMap`,
+      method: 'post'
+    })
   }
 
 }

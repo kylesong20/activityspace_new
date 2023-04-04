@@ -1,7 +1,12 @@
 package com.kyle.venue.controller;
 
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.alibaba.nacos.client.utils.JSONUtils;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.kyle.util.R;
 import com.kyle.venue.entity.Venue;
@@ -10,9 +15,18 @@ import com.kyle.venue.entity.vo.VenueQuery;
 import com.kyle.venue.service.VenueService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import net.minidev.json.JSONUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.repository.init.ResourceReader;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -78,6 +92,10 @@ public class VenueController {
     @ApiOperation(value = "添加场地")
     @PostMapping("addVenue")
     public R addVenue(@RequestBody Venue venue){
+//        venue.setMapJson("{ \"geometry\": { \"coordinates\": [ [ [ 113.977489, 23.065883 ], [ 113.977329, 23.065896 ], [ 113.977252, 23.065883 ], [ 113.977224, 23.065262 ], [ 113.977475, 23.065255 ], [ 113.977489, 23.065883 ] ] ], \"type\": \"Polygon\" }, \"type\": \"Feature\", \"properties\": { \"name\": \"后勤楼1\" } },");
+        if (!isJSONString(venue.getMapJson().replaceAll(" ","")))
+            return R.error().message("json格式错误");
+        venue.setMapJson(venue.getMapJson().replaceAll(" ",""));
         boolean save = venueService.save(venue);
         if (save){
             return R.ok();
@@ -124,6 +142,30 @@ public class VenueController {
             }
         }
         return  R.ok();
+    }
+
+
+    @PostMapping("syncMap")
+    public R syncMap(){
+        boolean f = venueService.syncMap();
+        if (!f)
+            return R.error().message("同步失败");
+        return R.ok();
+    }
+
+    public static boolean isJSONString(String content) {
+        if (StringUtils.isEmpty(content)) {
+            return false;
+        }
+        if (!content.startsWith("{") || !content.endsWith("}")) {
+            return false;
+        }
+        try {
+            JSONObject.parse(content);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }
 

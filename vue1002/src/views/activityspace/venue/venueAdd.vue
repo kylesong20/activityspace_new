@@ -13,7 +13,7 @@
           <el-option :value="false" label="不可用" />
         </el-select>
       </el-form-item>
-      <el-form-item label="场地组" prop="groupId">
+      <el-form-item label="场地组" prop="groupName">
         <el-select
           v-model="venue.groupName"
           clearable
@@ -30,9 +30,12 @@
           />
         </el-select>
       </el-form-item>
+      <el-form-item label="场地特征" prop="mapJson">
+        <el-input v-model="venue.mapJson" :rows="5" type="textarea" :placeholder="'请按正确格式输入:' + jsonTemp" />
+      </el-form-item>
       <el-form-item>
         <el-button :disabled="saveBtnDisabled" type="primary" @click="saveOrUpdate('venue')">保存</el-button>
-        <el-button @click="resetForm('ruleForm')">重置</el-button>
+        <el-button @click="resetForm('venue')">重置</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -62,10 +65,11 @@ import venue from '@/api/activityspace/venue'
 export default {
   data() {
     return {
+      jsonTemp: '{ "geometry": { "coordinates": [ [ [ 113.977489, 23.065883 ], [ 113.977329, 23.065896 ], [ 113.977252, 23.065883 ], [ 113.977224, 23.065262 ], [ 113.977475, 23.065255 ], [ 113.977489, 23.065883 ] ] ], "type": "Polygon" }, "type": "Feature", "properties": { "name": "后勤楼1" } }',
       rules: {
         num: [{
           required: true,
-          message: '请输入学号',
+          message: '请输入场地号',
           trigger: 'blur'
         }],
         groupId: [{
@@ -83,6 +87,11 @@ export default {
           required: true,
           message: '请选择状态',
           trigger: 'blur'
+        }],
+        mapJson: [{
+          required: true,
+          message: '请输入场地json',
+          trigger: 'blur'
         }]
       },
 
@@ -91,7 +100,8 @@ export default {
         name: '',
         state: '',
         groupId: '',
-        groupName: ''
+        groupName: '',
+        mapJson: ''
       },
 
       saveBtnDisabled: false, // 保存按钮是否禁用,
@@ -121,7 +131,7 @@ export default {
     saveOrUpdate(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.saveBtnDisabled = true
+          // this.saveBtnDisabled = true
           if (!this.venue.id) {
             this.addVenue()
           } else {
@@ -138,6 +148,7 @@ export default {
     updateVenue() {
       venue.updateVenue(this.venue)
         .then(response => {
+          this.saveBtnDisabled = false
           this.$message({
             type: 'success',
             message: '修改成功!'
@@ -152,6 +163,7 @@ export default {
     addVenue() {
       venue.addVenue(this.venue)
         .then(response => {
+          this.saveBtnDisabled = true
           this.$message({
             type: 'success',
             message: '添加成功!'

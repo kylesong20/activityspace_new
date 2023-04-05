@@ -2,14 +2,12 @@ package com.kyle.venue.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.kyle.venue.entity.Group;
-import com.kyle.venue.entity.VenueClock;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kyle.venue.entity.VenueClock;
 import com.kyle.venue.entity.vo.VenueClockCount;
+import com.kyle.venue.entity.vo.VenueClockWeek;
 import com.kyle.venue.mapper.VenueClockMapper;
 import com.kyle.venue.service.VenueClockService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.apache.poi.ss.formula.functions.Now;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -55,7 +53,11 @@ public class VenueClockServiceImpl extends ServiceImpl<VenueClockMapper, VenueCl
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");//设置日期格式
         wrapper.between("create_time",df.format(new Date())+" 00:00:00",df.format(new Date())+" 23:59:59");//今天的打卡情况
         wrapper.groupBy("venue_id","venue_name","user_id");
-        List<VenueClockCount> venueClockCounts = venueClockMapper.venueClockCount(wrapper);
-        return venueClockCounts;
+        return venueClockMapper.venueClockCount(wrapper);
+    }
+
+    @Override
+    public List<VenueClockWeek> venueClockWeek(String venueId) {
+        return venueClockMapper.venueClockWeek(venueId);
     }
 }

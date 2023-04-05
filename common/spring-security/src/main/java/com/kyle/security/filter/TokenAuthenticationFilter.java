@@ -60,12 +60,12 @@ public class TokenAuthenticationFilter extends BasicAuthenticationFilter {
             }
 //            authentication = getAuthentication(req);
         } catch (Exception e) {
-            ResponseUtil.out(res, R.error());
+            ResponseUtil.out(res, R.error().code(50014).message("Token失效，请重新登录"));
         }
         if (authentication != null) {
             SecurityContextHolder.getContext().setAuthentication(authentication);
         } else {
-            ResponseUtil.out(res, R.error());
+            ResponseUtil.out(res, R.error().code(50014).message("Token失效，请重新登录"));
         }
 //        }
         chain.doFilter(req, res);

@@ -11,7 +11,8 @@ import venue from '@/api/activityspace/venue'
 export default {
   data() {
     return {
-      dataCount: []
+      dataCount: [],
+      // venueInfo:{}
     }
   },
   created() {
@@ -119,6 +120,11 @@ export default {
       // 下面这个是做屏幕适配的
       window.addEventListener('resize', function() {
         myChart.resize()
+      })
+      myChart.on("click",function (params) {
+        console.log(params.data)
+        _this.$emit('handleVenueInfo', params.data);
+        // this.venueInfo = params.data
       })
     }
   }

@@ -26,12 +26,12 @@
       </el-col>
       <el-col :xs="24" :sm="24" :lg="8">
         <div class="chart-wrapper">
-          <venue />
+          <venue ref="venue" @handleVenueInfo="handleVenueInfo"/>
         </div>
       </el-col>
       <el-col :xs="24" :sm="24" :lg="8">
         <div class="chart-wrapper">
-          <sign-line />
+          <sign-line :venueId="venueInfo.id" :venueName="venueInfo.name"/>
         </div>
       </el-col>
       <el-col :xs="24" :sm="24" :lg="8">
@@ -112,12 +112,17 @@ export default {
   },
   data() {
     return {
-      lineChartData: lineChartData.newVisitis
+      lineChartData: lineChartData.newVisitis,
+      venueInfo:{}
     }
   },
   methods: {
     handleSetLineChartData(type) {
       this.lineChartData = lineChartData[type]
+    },
+    handleVenueInfo(venueInfo){
+      console.log(venueInfo)
+      this.venueInfo = venueInfo
     }
   }
 }

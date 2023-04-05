@@ -7,16 +7,22 @@
       <!--          <p>{{item.}}</p>-->
       <!--        </el-card>-->
       <!--      </el-timeline-item>-->
-      <el-timeline-item timestamp="2018/4/3" placement="top">
+      <el-timeline-item timestamp="2018-04-03 16:00:00 ~ 2018-04-03 18:00:00" placement="top">
         <el-card>
-          <h4>更新 Github 模板</h4>
-          <p>王小虎 提交于 2018/4/3 20:46</p>
+          <h4>分享故事、文学作品</h4>
+          <p>以分享故事、文学作品为主，鼓励会员阅读和写作。</p>
         </el-card>
       </el-timeline-item>
-      <el-timeline-item timestamp="2018/4/2" placement="top">
+      <el-timeline-item timestamp="2018-04-03 16:00:00 ~ 2018-04-03 18:00:00" placement="top">
         <el-card>
-          <h4>更新 Github 模板</h4>
-          <p>王小虎 提交于 2018/4/2 20:46</p>
+          <h4>环保活动和义工服务</h4>
+          <p>倡导环保理念，组织环保活动和义工服务。</p>
+        </el-card>
+      </el-timeline-item>
+      <el-timeline-item timestamp="2018-04-03 16:00:00 ~ 2018-04-03 18:00:00" placement="top">
+        <el-card>
+          <h4>环保活动和义工服务</h4>
+          <p>倡导环保理念，组织环保活动和义工服务。</p>
         </el-card>
       </el-timeline-item>
       <el-timeline-item timestamp="2018/4/12" placement="top">

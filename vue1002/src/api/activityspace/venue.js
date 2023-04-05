@@ -88,6 +88,13 @@ export default {
       url: `/venue/clock/mapClock`,
       method: 'get'
     })
-  }
+  },
+  venueClockWeek(venueId) {
+    return request({
+      url: `/venue/clock/venueClockWeek/${venueId}`,
+      method: 'get'
+    })
+  },
+
 
 }

@@ -6,9 +6,8 @@ import com.kyle.security.security.TokenManager;
 import com.kyle.util.R;
 import com.kyle.venue.entity.Venue;
 import com.kyle.venue.entity.VenueClock;
-import com.kyle.venue.entity.vo.GroupQuery;
 import com.kyle.venue.entity.vo.VenueClockCount;
-import com.kyle.venue.mapper.VenueClockMapper;
+import com.kyle.venue.entity.vo.VenueClockWeek;
 import com.kyle.venue.service.VenueClockService;
 import com.kyle.venue.service.VenueService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,6 +59,12 @@ public class VenueClockController {
     public R mapClock(){
         List<VenueClockCount> venueClockCounts = venueClockService.venueClockCount();
         return R.ok().data("venueClockCounts",venueClockCounts);
+    }
+
+    @GetMapping("venueClockWeek/{venueId}")
+    public R venueClockWeek(@PathVariable String venueId){
+        List<VenueClockWeek> venueClockWeek = venueClockService.venueClockWeek(venueId);
+        return R.ok().data("venueClockWeeks",venueClockWeek);
     }
 
 }

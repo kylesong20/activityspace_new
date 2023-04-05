@@ -45,57 +45,77 @@ export default {
   methods: {
     initChart() {
       this.chart = echarts.init(this.$el, 'macarons')
-
-      this.chart.setOption({
+      const option = {
         tooltip: {
           trigger: 'axis',
-          axisPointer: { // 坐标轴指示器，坐标轴触发有效
-            type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+          axisPointer: {
+            type: 'shadow'
           }
         },
+        legend: {
+          data: ['Profit', 'Expenses', 'Income']
+        },
         grid: {
-          top: 10,
-          left: '2%',
-          right: '2%',
+          left: '3%',
+          right: '4%',
           bottom: '3%',
           containLabel: true
         },
-        xAxis: [{
-          type: 'category',
-          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-          axisTick: {
-            alignWithLabel: true
+        xAxis: [
+          {
+            type: 'value'
           }
-        }],
-        yAxis: [{
-          type: 'value',
-          axisTick: {
-            show: false
+        ],
+        yAxis: [
+          {
+            type: 'category',
+            axisTick: {
+              show: false
+            },
+            data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
           }
-        }],
-        series: [{
-          name: 'pageA',
-          type: 'bar',
-          stack: 'vistors',
-          barWidth: '60%',
-          data: [79, 52, 200, 334, 390, 330, 220],
-          animationDuration
-        }, {
-          name: 'pageB',
-          type: 'bar',
-          stack: 'vistors',
-          barWidth: '60%',
-          data: [80, 52, 200, 334, 390, 330, 220],
-          animationDuration
-        }, {
-          name: 'pageC',
-          type: 'bar',
-          stack: 'vistors',
-          barWidth: '60%',
-          data: [30, 52, 200, 334, 390, 330, 220],
-          animationDuration
-        }]
-      })
+        ],
+        series: [
+          {
+            name: 'Profit',
+            type: 'bar',
+            label: {
+              show: true,
+              position: 'inside'
+            },
+            emphasis: {
+              focus: 'series'
+            },
+            data: [200, 170, 240, 244, 200, 220, 210]
+          },
+          {
+            name: 'Income',
+            type: 'bar',
+            stack: 'Total',
+            label: {
+              show: true
+            },
+            emphasis: {
+              focus: 'series'
+            },
+            data: [320, 302, 341, 374, 390, 450, 420]
+          },
+          {
+            name: 'Expenses',
+            type: 'bar',
+            stack: 'Total',
+            label: {
+              show: true,
+              position: 'left'
+            },
+            emphasis: {
+              focus: 'series'
+            },
+            data: [-120, -132, -101, -134, -190, -230, -210]
+          }
+        ]
+      };
+      this.chart.setOption(option)
     }
   }
 }

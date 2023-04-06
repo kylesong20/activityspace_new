@@ -7,44 +7,43 @@ import echarts from 'echarts'
 import venue from '@/api/activityspace/venue'
 export default {
   name: 'SignLine',
-  props:{
-    "venueId":{
+  props: {
+    'venueId': {
       type: String,
-      required:true,
+      required: true,
       default: '0'
     },
-    "venueName":{
+    'venueName': {
       type: String,
-      required:true,
+      required: true,
       default: '总场地'
+    }
+  },
+  watch: {
+    venueId(newV, oldV) {
+      this.getWeekData(newV)
     }
   },
   mounted() {
     this.getWeekData()
   },
-  watch:{
-    venueId(newV,oldV){
-      this.getWeekData(newV)
-    },
-  },
   methods: {
-    getWeekData(newV){
-      console.log(newV)
-      venue.venueClockWeek(newV).then(res=>{
+    getWeekData(newV) {
+      console.log(newV || '0')
+      venue.venueClockWeek(newV || '0').then(res => {
         const venueClockWeeks = res.data.venueClockWeeks
         this.initLine(venueClockWeeks)
       })
-
     },
     initLine(venueClockWeeks) {
       console.log(venueClockWeeks)
-      let value = []
+      const value = []
       let j = 0
       for (let i = 0; i < 7; i++) {
-        if (j<venueClockWeeks.length && venueClockWeeks[j].dayOfWeek == i){
+        if (j < venueClockWeeks.length && venueClockWeeks[j].dayOfWeek === i.toString()) {
           value.push(venueClockWeeks[j].value)
           j++
-        }else {
+        } else {
           value.push(0)
         }
       }
@@ -58,14 +57,14 @@ export default {
         },
         title: {
           left: 'center',
-          text: '本周'+this.venueName+'打卡次数'
+          text: '本周' + this.venueName + '打卡次数'
         },
         xAxis: {
           type: 'category',
-          data: ['周日','周一', '周二', '周三', '周四', '周五', '周六']
+          data: ['周日', '周一', '周二', '周三', '周四', '周五', '周六']
         },
         yAxis: {
-          type: 'value',
+          type: 'value'
           // min: function(value) { // 取最小值向下取整为最小刻度
           //   return Math.floor(value.min)
           // },

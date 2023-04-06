@@ -15,6 +15,6 @@ import java.util.Map;
  * @since 2023-01-04
  */
 public interface ActivityService extends IService<Activity> , IActFlowCustomService {
-    Map<String, Object> pageActivityCondition(long current, long limit, ActivityQuery activityQuery);
     Map<String, Object> pageActivityCondition(long current, long limit, ActivityQuery activityQuery,String userId);
+    Map<String, Object> pageUserActivityCondition(long current, long limit, ActivityQuery activityQuery,String userId);
 }

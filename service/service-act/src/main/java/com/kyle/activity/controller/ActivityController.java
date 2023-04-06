@@ -42,6 +42,12 @@ public class ActivityController {
     @Autowired
     private ActVenService actVenService;
 
+    @GetMapping("/{activityId}")
+    public R getActivityInfo(@PathVariable String activityId){
+        Activity activityInfo = activityService.getById(activityId);
+        return R.ok().data("activityInfo",activityInfo);
+    }
+
     /**
      * 查询本人的活动申请
      * @return
@@ -50,7 +56,7 @@ public class ActivityController {
     public R findActivity(HttpServletRequest request,@PathVariable long current, @PathVariable long limit,@RequestBody(required = false) ActivityQuery activityQuery){
         String token = request.getHeader("X-token");
         String userId = tokenManager.getUserIDToken(token);
-        Map<String, Object> map = activityService.pageActivityCondition(current, limit, activityQuery,userId);
+        Map<String, Object> map = activityService.pageUserActivityCondition(current, limit, activityQuery,userId);
         return R.ok().data("total",map.get("total")).data("rows",map.get("rows"));
     }
 
@@ -59,8 +65,10 @@ public class ActivityController {
      * @return
      */
     @PostMapping("pageActivityCondition/{current}/{limit}")
-    public R pageActivityCondition(@PathVariable long current, @PathVariable long limit,@RequestBody(required = false) ActivityQuery activityQuery){
-        Map<String, Object> map = activityService.pageActivityCondition(current, limit, activityQuery);
+    public R pageActivityCondition(HttpServletRequest request,@PathVariable long current, @PathVariable long limit,@RequestBody(required = false) ActivityQuery activityQuery){
+        String token = request.getHeader("X-token");
+        String userId = tokenManager.getUserIDToken(token);
+        Map<String, Object> map = activityService.pageActivityCondition(current, limit, activityQuery,userId);
         return R.ok().data("total",map.get("total")).data("rows",map.get("rows"));
     }
 

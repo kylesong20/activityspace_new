@@ -25,17 +25,31 @@ public interface VenueClockMapper extends BaseMapper<VenueClock> {
 //    @Select("select venue_id as id,venue_name as name, count(1) as value from venue_clock vc ${ew.customSqlSegment}")
     List<VenueClockCount> venueClockCount(@Param(Constants.WRAPPER) QueryWrapper<VenueClock> venueQueryWrapper);
 
-    @Select("SELECT\n" +
-            "venue_id,\n" +
+    @Select("SELECT \n" +
+            "venue_id, \n" +
             "venue_name AS name,\n" +
             "DATE_FORMAT(create_time, '%w') AS day_of_week,\n" +
-            "COUNT(1) AS value,\n" +
-            "week(create_time) as w,\n" +
-            "week(now()) as mw\n" +
+            "COUNT(1) AS value, \n" +
+            "week(create_time) as w, \n" +
+            "week(now()) as mw \n" +
             "FROM venue_clock\n" +
-            "WHERE venue_id = #{venueId}\n" +
-            "GROUP BY venue_id, venue_name, day_of_week\n" +
-            "HAVING mw = w\n" +
-            "ORDER BY day_of_week;")
+            "WHERE venue_id = #{venueId} \n" +
+            "AND week(create_time) = week(now()) \n" +
+            "GROUP BY venue_id, venue_name,\n" +
+            "DATE_FORMAT(create_time, '%w'),\n" +
+            "week(create_time), \n" +
+            "week(now()) ORDER BY day_of_week;")
     List<VenueClockWeek> venueClockWeek(@Param("venueId") String venueId);
+
+    @Select("SELECT \n" +
+            "DATE_FORMAT(create_time, '%w') AS day_of_week,\n" +
+            "COUNT(1) AS value, \n" +
+            "week(create_time) as w, \n" +
+            "week(now()) as mw \n" +
+            "FROM venue_clock\n" +
+            "where week(create_time) = week(now()) \n" +
+            "GROUP BY DATE_FORMAT(create_time, '%w'),\n" +
+            "week(create_time), \n" +
+            "week(now()) ORDER BY day_of_week;")
+    List<VenueClockWeek> venueClockWeekAll();
 }

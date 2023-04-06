@@ -25,6 +25,12 @@
       </el-form-item>
     </el-form>
 
+    <el-dialog
+      title="提示"
+      :visible.sync="dialogVisible"
+    >
+      <activity-apply :activity-id="activityId" />
+    </el-dialog>
     <div>
       <el-button v-if="hasPerm('activity.add')" size="mini" type="primary" @click="addActivity()">添加</el-button>
       <el-button v-if="hasPerm('activity.remove')" size="mini" type="danger" @click="removeRows()">批量删除</el-button>
@@ -56,6 +62,11 @@
       <el-table-column label="申请理由" width="200">
         <template slot-scope="scope">
           <span>{{ scope.row.reson }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="报名列表" width="200">
+        <template slot-scope="scope">
+          <el-button type="text" @click="openApplyList(scope.row.id)">查看列表</el-button>
         </template>
       </el-table-column>
       <el-table-column label="活动开始时间" width="200">
@@ -98,11 +109,18 @@
 
 <script>
 import activity from '@/api/activityspace/activity'
+import ActivityApply from './activityApply'
 
 export default {
+  components: {
+    // eslint-disable-next-line vue/no-unused-components
+    ActivityApply
+  },
   data() {
     return {
       multipleSelection: [],
+      dialogVisible: false,
+      activityId: '',
 
       list: null,
       page: 1,
@@ -206,6 +224,10 @@ export default {
           message: '已取消删除'
         })
       })
+    },
+    openApplyList(id) {
+      this.dialogVisible = true
+      this.activityId = id
     }
   }
 }

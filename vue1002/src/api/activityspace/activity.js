@@ -43,6 +43,13 @@ export default {
       url: `/activity/activity/delActivity/${activityId}`,
       method: 'delete'
     })
+  },
+  // 活动报名列表
+  pageActivityApplyCondition(current, limit, activityId, activityQuery) {
+    return request({
+      url: `/activity/apply/pageActivityApplyCondition/${current}/${limit}/${activityId}`,
+      method: 'post',
+      data: activityQuery
+    })
   }
-
 }

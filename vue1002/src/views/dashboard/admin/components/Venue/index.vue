@@ -11,7 +11,7 @@ import venue from '@/api/activityspace/venue'
 export default {
   data() {
     return {
-      dataCount: [],
+      dataCount: []
       // venueInfo:{}
     }
   },
@@ -121,9 +121,9 @@ export default {
       window.addEventListener('resize', function() {
         myChart.resize()
       })
-      myChart.on("click",function (params) {
+      myChart.on('click', function(params) {
         console.log(params.data)
-        _this.$emit('handleVenueInfo', params.data);
+        _this.$emit('handleVenueInfo', params.data)
         // this.venueInfo = params.data
       })
     }

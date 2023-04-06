@@ -5,9 +5,12 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kyle.activity.entity.Activity;
+import com.kyle.activity.entity.ActivityApply;
+import com.kyle.activity.mapper.ActivityApplyMapper;
 import com.kyle.activity.mapper.ActivityMapper;
 import com.kyle.activity.service.ActivityService;
 import com.kyle.activity.entity.vo.ActivityQuery;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -25,7 +28,8 @@ import java.util.*;
  */
 @Service("activityService")
 public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity> implements ActivityService {
-
+    @Autowired
+    private ActivityApplyMapper activityApplyMapper;
     /**
      * 设置出差申请的 流程变量
      *
@@ -90,29 +94,39 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity> i
     }
 
     @Override
-    public Map<String, Object> pageActivityCondition(long current, long limit, ActivityQuery activityQuery) {
-        Page<Activity> venuePage = new Page<>(current, limit);
+    public Map<String, Object> pageActivityCondition(long current, long limit, ActivityQuery activityQuery,String userId) {
+
+        Page<Activity> activityPage = new Page<>(current, limit);
         QueryWrapper<Activity> venueQueryWrapper = pageCondition(activityQuery);
 
-        page(venuePage,venueQueryWrapper);
+        page(activityPage,venueQueryWrapper);
 
-        long total = venuePage.getTotal();
-        List<Activity> records = venuePage.getRecords();
+        long total = activityPage.getTotal();
+        List<Activity> records = activityPage.getRecords();
 
+        List<ActivityApply> applies = activityApplyMapper.selectList(new QueryWrapper<ActivityApply>().eq("user_id", userId));
+        for (Activity activity : records) {
+            for (ActivityApply apply : applies) {
+                if (Objects.equals(activity.getId(), apply.getActId())){
+                    activity.setApplied(true);
+                    break;
+                }
+            }
+        }
         Map<String, Object> map = new HashMap<>();
         map.put("total",total);
         map.put("rows",records);
         return map;
     }
     @Override
-    public Map<String, Object> pageActivityCondition(long current, long limit, ActivityQuery activityQuery,String userId) {
-        Page<Activity> venuePage = new Page<>(current, limit);
+    public Map<String, Object> pageUserActivityCondition(long current, long limit, ActivityQuery activityQuery,String userId) {
+        Page<Activity> activityPage = new Page<>(current, limit);
         QueryWrapper<Activity> venueQueryWrapper = pageCondition(activityQuery);
         venueQueryWrapper.eq("user_id", userId);
-        page(venuePage,venueQueryWrapper);
+        page(activityPage,venueQueryWrapper);
 
-        long total = venuePage.getTotal();
-        List<Activity> records = venuePage.getRecords();
+        long total = activityPage.getTotal();
+        List<Activity> records = activityPage.getRecords();
 
         Map<String, Object> map = new HashMap<>();
         map.put("total",total);

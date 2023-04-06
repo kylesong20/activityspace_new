@@ -54,6 +54,9 @@ public class Activity implements Serializable {
 
     private String externalLinks;
 
+    @TableField(exist = false)
+    private Boolean applied;
+
     public String getImg() {
         return "http://"+IPUtils.getServerIP() +":8001"+ img;
     }

@@ -58,6 +58,8 @@ public class VenueClockServiceImpl extends ServiceImpl<VenueClockMapper, VenueCl
 
     @Override
     public List<VenueClockWeek> venueClockWeek(String venueId) {
+        if ("0".equals(venueId))
+            return venueClockMapper.venueClockWeekAll();
         return venueClockMapper.venueClockWeek(venueId);
     }
 }

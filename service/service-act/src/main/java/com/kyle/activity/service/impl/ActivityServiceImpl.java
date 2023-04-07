@@ -147,7 +147,11 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity> i
             wrapper.like("name",name);
         }
         if (!StringUtils.isEmpty(state)){
-            wrapper.eq("state",state);
+            if (!StringUtils.isEmpty(activityQuery.getSelectType())&&"LE".equals(activityQuery.getSelectType())){
+                wrapper.le("state",state);
+            }else {
+                wrapper.eq("state",state);
+            }
         }
         if (!StringUtils.isEmpty(begin)){
             wrapper.ge("begin_time",begin);

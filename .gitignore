@@ -48,3 +48,6 @@ hs_err_pid*
 
 # Mac
 .DS_Store
+/service/service-venue/src/main/resources/logback-spring.xml
+/service/service-ucenter/src/main/resources/logback-spring.xml
+/service/service-organization/src/main/resources/logback-spring.xml

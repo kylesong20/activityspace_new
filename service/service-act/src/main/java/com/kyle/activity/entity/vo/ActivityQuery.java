@@ -21,6 +21,9 @@ public class ActivityQuery implements Serializable {
     @ApiModelProperty(value = "场地状态")
     private String state;
 
+    @ApiModelProperty(value = "搜索类型")
+    private String selectType;
+
     @ApiModelProperty(value = "查询活动开始时间", example = "2019-01-01 10:10:10")
     private String begin;//注意，这里使用的是String类型，前端传过来的数据无需进行类型转换
 

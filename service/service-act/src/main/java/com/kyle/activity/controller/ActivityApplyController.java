@@ -46,5 +46,7 @@ public class ActivityApplyController {
         return R.ok().data("total",map.get("total")).data("rows",map.get("rows"));
     }
 
+
+
 }
 

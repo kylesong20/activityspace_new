@@ -3,12 +3,12 @@ package com.kyle.activity.controller;
 
 import com.kyle.activity.entity.ActVen;
 import com.kyle.activity.entity.Activity;
+import com.kyle.activity.entity.vo.ActivityQuery;
 import com.kyle.activity.service.ActVenService;
 import com.kyle.activity.service.ActivityService;
 import com.kyle.activity.service.impl.ActFlowCommService;
 import com.kyle.security.security.TokenManager;
 import com.kyle.util.R;
-import com.kyle.activity.entity.vo.ActivityQuery;
 import lombok.extern.slf4j.Slf4j;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +41,7 @@ public class ActivityController {
 
     @Autowired
     private ActVenService actVenService;
+
 
     @GetMapping("/{activityId}")
     public R getActivityInfo(@PathVariable String activityId){

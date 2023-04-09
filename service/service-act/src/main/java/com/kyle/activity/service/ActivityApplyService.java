@@ -16,5 +16,5 @@ import java.util.Map;
  */
 public interface ActivityApplyService extends IService<ActivityApply> {
 
-    Map<String, Object> pageActivityCondition(long current, long limit, ActApplyQuery actApplyQuery, String activityId);
+    Map<String, Object> pageActivityCondition(long current, long limit, ActApplyQuery actApplyQuery, String activityId,String userId);
 }

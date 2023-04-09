@@ -3,7 +3,6 @@ package com.kyle.activity.controller;
 
 import com.kyle.activity.entity.ActivityApply;
 import com.kyle.activity.entity.vo.ActApplyQuery;
-import com.kyle.activity.entity.vo.ActivityQuery;
 import com.kyle.activity.service.ActivityApplyService;
 import com.kyle.security.security.TokenManager;
 import com.kyle.util.R;
@@ -42,11 +41,17 @@ public class ActivityApplyController {
 
     @PostMapping("pageActivityApplyCondition/{current}/{limit}/{activityId}")
     public R listByActivityId(@PathVariable long current, @PathVariable long limit, @PathVariable String activityId,@RequestBody(required = false) ActApplyQuery actApplyQuery){
-        Map<String, Object> map = activityApplyService.pageActivityCondition(current, limit, actApplyQuery,activityId);
+        Map<String, Object> map = activityApplyService.pageActivityCondition(current, limit, actApplyQuery,activityId,null);
         return R.ok().data("total",map.get("total")).data("rows",map.get("rows"));
     }
 
-
+    @PostMapping("pageActivityApplied/{current}/{limit}")
+    public R listByUserId(HttpServletRequest request,@PathVariable long current, @PathVariable long limit,@RequestBody(required = false) ActApplyQuery actApplyQuery){
+        String token = request.getHeader("X-token");
+        String userId = tokenManager.getUserIDToken(token);
+        Map<String, Object> map = activityApplyService.pageActivityCondition(current, limit,actApplyQuery,null, userId);
+        return R.ok().data("total",map.get("total")).data("rows",map.get("rows"));
+    }
 
 }
 

@@ -89,7 +89,8 @@ module.exports = {
     // 获取本机ip
     config.plugin('define').tap((args) => {
       const ip = getNetworkIp()
-      args[0]['process.env'].VUE_APP_BASE_API = `"http://${ip}:8222"`
+      // args[0]['process.env'].VUE_APP_BASE_API = `"http://${ip}:8222"`
+      args[0]['process.env'].VUE_APP_BASE_API = `"http://127.0.0.1:8222"`
       return args
     })
 

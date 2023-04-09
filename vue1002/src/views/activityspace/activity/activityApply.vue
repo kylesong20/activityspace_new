@@ -28,12 +28,12 @@
     <el-table ref="multipleTable" :data="list" style="width: 100%">
       <el-table-column label="报名人学号">
         <template slot-scope="scope">
-          <span>{{ scope.row.num }}</span>
+          <span>{{ scope.row.userNum }}</span>
         </template>
       </el-table-column>
       <el-table-column label="报名人姓名">
         <template slot-scope="scope">
-          <span>{{ scope.row.name }}</span>
+          <span>{{ scope.row.userName }}</span>
         </template>
       </el-table-column>
       <el-table-column label="打卡状态">

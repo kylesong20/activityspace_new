@@ -153,7 +153,7 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity> i
         String begin = activityQuery.getBegin();
 
         if (!StringUtils.isEmpty(name)){
-            wrapper.like("name",name);
+            wrapper.like("a.name",name);
         }
         if (!StringUtils.isEmpty(activityQuery.getOpen())){
             wrapper.eq("open",activityQuery.getOpen());

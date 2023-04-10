@@ -35,6 +35,14 @@ public class ActivityApplyServiceImpl extends ServiceImpl<ActivityApplyMapper, A
         Page<ActivityApply> venuePage = new Page<>(current, limit);
         QueryWrapper<ActivityApply> wrapper = new QueryWrapper<>();
 //        wrapper.eq("a.state","2");
+        wrapper.ne("state",0);
+        if (!StringUtils.isEmpty(actApplyQuery.getState())){
+            if (!StringUtils.isEmpty(actApplyQuery.getSelectType())&&"LE".equals(actApplyQuery.getSelectType())){
+                wrapper.le("state",actApplyQuery.getState());
+            }else {
+                wrapper.eq("state",actApplyQuery.getState());
+            }
+        }
         if (!StringUtils.isEmpty(actApplyQuery.getNum()))
             wrapper.eq("userNum",actApplyQuery.getNum());
         if (!StringUtils.isEmpty(actApplyQuery.getName()))

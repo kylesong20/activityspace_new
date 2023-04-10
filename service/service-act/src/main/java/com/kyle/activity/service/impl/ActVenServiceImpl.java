@@ -1,10 +1,9 @@
 package com.kyle.activity.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kyle.activity.entity.ActVen;
 import com.kyle.activity.mapper.ActVenMapper;
 import com.kyle.activity.service.ActVenService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,8 +25,8 @@ public class ActVenServiceImpl extends ServiceImpl<ActVenMapper, ActVen> impleme
 
     @Override
     public ActVen actVenList(String activityId) {
-        ActVen actVen = actVenMapper.actVenList(new QueryWrapper<ActVen>().eq("a.id", activityId));
-        List<String> venueList = actVenMapper.getVenueList(new QueryWrapper<ActVen>().eq("av.act_id", activityId));
+        ActVen actVen = actVenMapper.actVenList(activityId);
+        List<String> venueList = actVenMapper.getVenueList(activityId);
         actVen.setVenueName(venueList);
         return actVen;
     }

@@ -18,7 +18,7 @@ import org.apache.ibatis.annotations.Select;
  * @since 2023-04-06
  */
 public interface ActivityApplyMapper extends BaseMapper<ActivityApply> {
-    @Select("SELECT aa.*,u.num userNum ,u.name userName ,a.name actName ,a.begin_time beginTime ,a.end_time endTime " +
-            "FROM activity_apply aa left join user u on aa.user_id = u.id left join activity a on aa.act_id = a.id ")
+    @Select("SELECT aa.*,u.num userNum ,u.name userName ,a.name actName ,a.begin_time beginTime ,a.end_time endTime,a.state " +
+            "FROM activity_apply aa left join user u on aa.user_id = u.id left join activity a on aa.act_id = a.id ${ew.customSqlSegment}")
     IPage<ActivityApply> getPage(Page<ActivityApply> venuePage, @Param(Constants.WRAPPER) QueryWrapper<ActivityApply> wrapper);
 }

@@ -34,7 +34,7 @@ public class ActivityApplyServiceImpl extends ServiceImpl<ActivityApplyMapper, A
     public Map<String, Object> pageActivityCondition(long current, long limit, ActApplyQuery actApplyQuery, String activityId,String userId) {
         Page<ActivityApply> venuePage = new Page<>(current, limit);
         QueryWrapper<ActivityApply> wrapper = new QueryWrapper<>();
-
+//        wrapper.eq("a.state","2");
         if (!StringUtils.isEmpty(actApplyQuery.getNum()))
             wrapper.eq("userNum",actApplyQuery.getNum());
         if (!StringUtils.isEmpty(actApplyQuery.getName()))
@@ -48,7 +48,7 @@ public class ActivityApplyServiceImpl extends ServiceImpl<ActivityApplyMapper, A
         if (!StringUtils.isEmpty(activityId))
             wrapper.eq("act_id",activityId);
         if (!StringUtils.isEmpty(userId))
-            wrapper.eq("user_id",userId);
+            wrapper.eq("aa.user_id",userId);
 //        page(venuePage,venueQueryWrapper);
         IPage<ActivityApply> activityApplyIPage = activityApplyMapper.getPage(venuePage, wrapper);
         long total = activityApplyIPage.getTotal();

@@ -1,6 +1,7 @@
 package com.kyle.activity.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
@@ -8,6 +9,7 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * <p>
@@ -37,6 +39,22 @@ public class ActVen implements Serializable {
 
     private String venId;
 
+    @TableField(exist = false)
+    private String name;
+    @TableField(exist = false)
+    private String beginTime;
+    @TableField(exist = false)
+    private String endTime;
+    @TableField(exist = false)
+    private String reson;
+    @TableField(exist = false)
+    private List<String> venueName;
 
-
+    public StringBuilder getVenueName() {
+        StringBuilder str = new StringBuilder();
+        for (String v : venueName) {
+            str.append(v+" ");
+        }
+        return str;
+    }
 }

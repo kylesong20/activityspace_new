@@ -32,7 +32,7 @@ public class MD5 {
     }
 
 //    public static void main(String[] args) {
-//        String encrypt = encrypt("111111");
+//        String encrypt = encrypt("waybill=SF1509948582240XcDea.test");
 //        System.out.println(encrypt);
 //
 //    }

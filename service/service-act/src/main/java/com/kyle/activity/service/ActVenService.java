@@ -1,7 +1,10 @@
 package com.kyle.activity.service;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.kyle.activity.entity.ActVen;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface ActVenService extends IService<ActVen> {
 
+    ActVen actVenList(String activityId);
 }

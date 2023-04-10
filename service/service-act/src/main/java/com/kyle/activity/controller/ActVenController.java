@@ -29,8 +29,8 @@ public class ActVenController {
 
     @GetMapping("{activityId}")
     public R getActVen(@PathVariable String activityId){
-        List<ActVen> list = actVenService.list(new QueryWrapper<ActVen>().eq("act_id", activityId));
-        return R.ok().data("list",list);
+        ActVen actVen = actVenService.actVenList(activityId);
+        return R.ok().data("actVen",actVen);
     }
 }
 

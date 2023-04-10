@@ -2,6 +2,7 @@ package com.kyle.activity.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kyle.activity.entity.Activity;
@@ -30,6 +31,8 @@ import java.util.*;
 public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity> implements ActivityService {
     @Autowired
     private ActivityApplyMapper activityApplyMapper;
+    @Autowired
+    private ActivityMapper activityMapper;
     /**
      * 设置出差申请的 流程变量
      *
@@ -95,14 +98,19 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity> i
 
     @Override
     public Map<String, Object> pageActivityCondition(long current, long limit, ActivityQuery activityQuery,String userId) {
-
+        if (StringUtils.isEmpty(activityQuery.getOrganizationId())){
+            String orgId = activityMapper.getOrgIdByUserId(userId);
+            activityQuery.setOrganizationId(orgId);
+        }else {
+            activityQuery.setOrganizationId(null);
+        }
         Page<Activity> activityPage = new Page<>(current, limit);
-        QueryWrapper<Activity> venueQueryWrapper = pageCondition(activityQuery);
-
-        page(activityPage,venueQueryWrapper);
-
-        long total = activityPage.getTotal();
-        List<Activity> records = activityPage.getRecords();
+        QueryWrapper<Activity> activityQueryWrapper = pageCondition(activityQuery);
+        activityQueryWrapper.ne("state",0);
+//        page(activityPage,activityQueryWrapper);
+        IPage<Activity> page = activityMapper.getPage(activityPage, activityQueryWrapper);
+        long total = page.getTotal();
+        List<Activity> records = page.getRecords();
 
         List<ActivityApply> applies = activityApplyMapper.selectList(new QueryWrapper<ActivityApply>().eq("user_id", userId));
         for (Activity activity : records) {
@@ -118,6 +126,7 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity> i
         map.put("rows",records);
         return map;
     }
+
     @Override
     public Map<String, Object> pageUserActivityCondition(long current, long limit, ActivityQuery activityQuery,String userId) {
         Page<Activity> activityPage = new Page<>(current, limit);
@@ -145,6 +154,12 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity> i
 
         if (!StringUtils.isEmpty(name)){
             wrapper.like("name",name);
+        }
+        if (!StringUtils.isEmpty(activityQuery.getOpen())){
+            wrapper.eq("open",activityQuery.getOpen());
+        }
+        if (!StringUtils.isEmpty(activityQuery.getOrganizationId())){
+            wrapper.eq("u.organization_id",activityQuery.getOrganizationId());
         }
         if (!StringUtils.isEmpty(state)){
             if (!StringUtils.isEmpty(activityQuery.getSelectType())&&"LE".equals(activityQuery.getSelectType())){

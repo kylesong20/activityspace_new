@@ -54,6 +54,8 @@ public class Activity implements Serializable {
 
     private String externalLinks;
 
+    private String open;
+
     @TableField(exist = false)
     private Boolean applied;
 

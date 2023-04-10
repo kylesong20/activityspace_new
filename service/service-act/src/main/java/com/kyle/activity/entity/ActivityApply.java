@@ -55,4 +55,7 @@ public class ActivityApply implements Serializable {
     @TableField(exist = false)
     private String endTime;
 
+    @TableField(exist = false)
+    private String state;
+
 }

@@ -3,15 +3,16 @@ package com.kyle.activity.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.kyle.activity.entity.ActVen;
+import com.kyle.activity.entity.Activity;
+import com.kyle.activity.entity.vo.ActivityQuery;
 import com.kyle.activity.service.ActVenService;
 import com.kyle.util.R;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -31,6 +32,13 @@ public class ActVenController {
     public R getActVen(@PathVariable String activityId){
         ActVen actVen = actVenService.actVenList(activityId);
         return R.ok().data("actVen",actVen);
+    }
+
+    //根据场地ID
+    @GetMapping("getActivitiesByVenueId/{venueId}")
+    public R getActivitiesByVenueId(@PathVariable String venueId){
+        List<Activity> list = actVenService.getActivitiesByVenueId(venueId);
+        return R.ok().data("list",list);
     }
 }
 

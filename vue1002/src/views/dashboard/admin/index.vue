@@ -36,7 +36,7 @@
       </el-col>
       <el-col :xs="24" :sm="24" :lg="8">
         <div class="chart-wrapper">
-          <time-line />
+          <time-line :venue-id="venueInfo?venueInfo.id:'0'" :venue-name="venueInfo?venueInfo.name:'总场地'" />
         </div>
       </el-col>
     </el-row>

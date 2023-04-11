@@ -51,5 +51,11 @@ export default {
       method: 'post',
       data: activityQuery
     })
+  },
+  getActivitiesByVenueId(venueId) {
+    return request({
+      url: `/activity/act-ven/getActivitiesByVenueId/${venueId}`,
+      method: 'get'
+    })
   }
 }

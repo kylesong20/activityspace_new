@@ -58,6 +58,10 @@ public class Activity implements Serializable {
 
     @TableField(exist = false)
     private Boolean applied;
+    @TableField(exist = false)
+    private String venId;
+    @TableField(exist = false)
+    private String avId;
 
     public String getImg() {
         return "http://"+IPUtils.getServerIP() +":8001"+ img;

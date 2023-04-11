@@ -1,5 +1,6 @@
 package com.kyle.venue.entity.vo;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -32,4 +33,7 @@ public class VenueQuery implements Serializable {
 
     @ApiModelProperty(value = "查询结束时间", example = "2019-12-01 10:10:10")
     private String end;
+
+    @TableField(exist = false)
+    private String star;
 }

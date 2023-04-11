@@ -6,11 +6,14 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.kyle.venue.entity.VenUser;
 import com.kyle.venue.entity.Venue;
 import com.kyle.venue.entity.vo.VenueGroupVo;
 import com.kyle.venue.entity.vo.VenueQuery;
 import com.kyle.venue.mapper.VenueMapper;
+import com.kyle.venue.service.VenUserService;
 import com.kyle.venue.service.VenueService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -20,10 +23,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * <p>
@@ -54,16 +54,33 @@ public class VenueServiceImpl extends ServiceImpl<VenueMapper, Venue> implements
 
     @Resource
     VenueMapper venueMapper;
+    @Autowired
+    VenUserService venUserService;
 
     @Override
-    public Map<String, Object> pageVenueGroupCondition(long current, long limit, VenueGroupVo venueGroupVo, VenueQuery venueQuery) {
+    public Map<String, Object> pageVenueGroupCondition(long current, long limit, VenueQuery venueQuery,String userId) {
+
         Page<VenueGroupVo> venuePage = new Page<>(current, limit);
         QueryWrapper<Venue> venueQueryWrapper = pageCondition(venueQuery);
         venueQueryWrapper.eq("v.is_delete",0);
+
         IPage<VenueGroupVo> venueGroupVoIPage = venueMapper.pageVenueGroupCondition(venuePage, venueQueryWrapper);
 
         long total = venueGroupVoIPage.getTotal();
         List<VenueGroupVo> records = venueGroupVoIPage.getRecords();
+
+        if (!StringUtils.isEmpty(venueQuery.getStar())){
+            List<VenUser> stared = venUserService.list(new QueryWrapper<VenUser>().eq("user_id", userId));
+            for (VenueGroupVo venue : records) {
+                venue.setStared(false);
+                for (VenUser star : stared) {
+                    if (Objects.equals(venue.getId(), star.getVenId())){
+                        venue.setStared(true);
+                        break;
+                    }
+                }
+            }
+        }
 
         Map<String, Object> map = new HashMap<>();
         map.put("total",total);

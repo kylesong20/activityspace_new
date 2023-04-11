@@ -1,13 +1,11 @@
 package com.kyle.venue.controller;
 
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.serializer.SerializerFeature;
-import com.alibaba.nacos.client.utils.JSONUtils;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.kyle.security.security.TokenManager;
 import com.kyle.util.R;
 import com.kyle.venue.entity.Venue;
 import com.kyle.venue.entity.vo.VenueGroupVo;
@@ -15,18 +13,10 @@ import com.kyle.venue.entity.vo.VenueQuery;
 import com.kyle.venue.service.VenueService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import net.minidev.json.JSONUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.repository.init.ResourceReader;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
-import java.util.ArrayList;
-import java.util.HashMap;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -44,7 +34,8 @@ import java.util.Map;
 public class VenueController {
     @Autowired
     VenueService venueService;
-
+    @Autowired
+    TokenManager tokenManager;
     @ApiOperation(value = "查询所有场地")
     @GetMapping(value="findAll")
     public R findAllVenue(){
@@ -84,8 +75,10 @@ public class VenueController {
 
     @ApiOperation(value = "带条件的分页连表查询场地和场地组")
     @PostMapping("pageVenueGroupCondition/{current}/{limit}")
-    public R pageVenueGroupCondition(@PathVariable long current, @PathVariable long limit,@RequestBody(required = false) VenueQuery venueQuery, VenueGroupVo venueGroupVo){
-        Map<String, Object> map = venueService.pageVenueGroupCondition(current, limit, venueGroupVo,venueQuery);
+    public R pageVenueGroupCondition(HttpServletRequest request,@PathVariable long current, @PathVariable long limit, @RequestBody(required = false) VenueQuery venueQuery){
+        String token = request.getHeader("X-token");
+        String userId = tokenManager.getUserIDToken(token);
+        Map<String, Object> map = venueService.pageVenueGroupCondition(current, limit,venueQuery,userId);
         return R.ok().data("total",map.get("total")).data("rows",map.get("rows"));
     }
 

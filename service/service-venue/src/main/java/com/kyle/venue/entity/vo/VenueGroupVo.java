@@ -30,4 +30,6 @@ public class VenueGroupVo implements Serializable {
     private String groupId;
 
     private String groupName;
+
+    private Boolean stared;
 }

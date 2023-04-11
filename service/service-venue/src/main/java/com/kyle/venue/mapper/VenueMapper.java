@@ -23,4 +23,5 @@ public interface VenueMapper extends BaseMapper<Venue> {
 
     @Select("select v.*,vg.`name` groupName from venue v,venue_group vg where v.group_id = vg.id and v.id = #{id}  ")
     VenueGroupVo getVenueGroupById(@Param("id") String id);
+
 }

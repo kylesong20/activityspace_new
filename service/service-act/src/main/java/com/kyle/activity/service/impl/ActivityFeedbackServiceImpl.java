@@ -7,6 +7,7 @@ import com.kyle.activity.entity.ActivityFeedback;
 import com.kyle.activity.mapper.ActivityFeedbackMapper;
 import com.kyle.activity.service.ActivityFeedbackService;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -30,6 +31,12 @@ public class ActivityFeedbackServiceImpl extends ServiceImpl<ActivityFeedbackMap
         QueryWrapper<ActivityFeedback> wrapper = new QueryWrapper<>();
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");//设置日期格式
         wrapper.between("create_time",df.format(new Date())+" 00:00:00",df.format(new Date())+" 23:59:59");
+        wrapper.orderByDesc("create_time");
+
+        if (!StringUtils.isEmpty(activityFeedback.getActId()))
+            wrapper.eq("act_id",activityFeedback.getActId());
+        if (!StringUtils.isEmpty(activityFeedback.getUserId()))
+            wrapper.eq("user_id",activityFeedback.getUserId());
         page(activityFeedbackPage,wrapper);
 
         long total = activityFeedbackPage.getTotal();

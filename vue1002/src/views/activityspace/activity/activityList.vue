@@ -126,7 +126,7 @@ export default {
       page: 1,
       limit: 5,
       total: null,
-      ActivityQuery: {}
+      ActivityQuery: {all:true}
     }
   },
   created() {

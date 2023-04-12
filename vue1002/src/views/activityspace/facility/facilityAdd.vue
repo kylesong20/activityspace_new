@@ -136,7 +136,7 @@ export default {
             message: '修改成功!'
           })
           this.$router.push({
-            path: '/facility/facilityList'
+            path: '/venue/facilityList'
           })
         })
     },
@@ -149,7 +149,7 @@ export default {
             message: '添加成功!'
           })
           this.$router.push({
-            path: '/facility/facilityList'
+            path: '/venue/facilityList'
           })
         })
     },

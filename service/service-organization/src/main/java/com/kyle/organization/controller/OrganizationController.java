@@ -1,6 +1,7 @@
 package com.kyle.organization.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.kyle.organization.service.OrganizationIntroductionService;
 import com.kyle.organization.service.OrganizationService;
@@ -39,6 +40,11 @@ public class OrganizationController {
     public R findAllOrganization(){
         List<Organization> list = organizationService.list(null);
         return R.ok().data("items",list);
+    }
+    @PutMapping(value="changeLeader/{leaderId}/{leaderName}/{rowId}")
+    public R changeLeader(@PathVariable String leaderId, @PathVariable String leaderName, @PathVariable String rowId){
+        organizationService.update(new UpdateWrapper<Organization>().set("leader_id",leaderId).set("leader_name",leaderName).eq("id",rowId));
+        return R.ok();
     }
 
     @ApiOperation(value = "逻辑删除组织")

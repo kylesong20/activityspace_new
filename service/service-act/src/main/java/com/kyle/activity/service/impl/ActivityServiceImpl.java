@@ -13,6 +13,7 @@ import com.kyle.activity.service.ActivityService;
 import com.kyle.activity.entity.vo.ActivityQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 import java.text.ParseException;
@@ -106,7 +107,8 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity> i
         }
         Page<Activity> activityPage = new Page<>(current, limit);
         QueryWrapper<Activity> activityQueryWrapper = pageCondition(activityQuery);
-        activityQueryWrapper.ne("state",0);
+        if (ObjectUtils.isEmpty(activityQuery.getAll()))
+            activityQueryWrapper.ne("state",0);
 //        page(activityPage,activityQueryWrapper);
         IPage<Activity> page = activityMapper.getPage(activityPage, activityQueryWrapper);
         long total = page.getTotal();

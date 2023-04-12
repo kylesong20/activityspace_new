@@ -62,6 +62,12 @@ export default {
       }
     })
   },
+  changeLeader(userId,leaderName,rowId){
+    return request({
+      url: `/organization/organization/changeLeader/${userId}/${leaderName}/${rowId}`,
+      method: 'put'
+    })
+  },
 
   // 根据id获取组织简介
   getIntroduceById(id) {

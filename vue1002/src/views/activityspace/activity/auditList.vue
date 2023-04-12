@@ -11,7 +11,7 @@
       </el-table-column>
       <el-table-column label="申请人" width="200">
         <template slot-scope="scope">
-          <span style="margin-left: 6px">{{ scope.row.flowUser.name }}</span>
+          <span style="margin-left: 6px">{{ scope.row.flowUser.name || scope.row.flowUser.username }}</span>
         </template>
       </el-table-column>
       <el-table-column label="申请理由" width="200">

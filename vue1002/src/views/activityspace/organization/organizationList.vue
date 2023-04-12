@@ -113,14 +113,14 @@
               :key="item.id"
               :label="item.name"
               :value="item.name"
-              @click.native="click(item.id)"
+              @click.native="click(item)"
             />
           </el-select>
         </el-col>
       </el-row>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+        <el-button type="primary" @click="changeLeader()">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -152,6 +152,13 @@ export default {
     this.getList()
   },
   methods: {
+    changeLeader(){
+      organization.changeLeader(this.leaderId,this.leaderName,this.rowId).then(res=>{
+        this.$message.success("修改成功")
+        this.getList()
+      })
+      this.dialogVisible = false
+    },
     getList(page = 1) {
       this.page = page
       organization.getOrganizationListPage(this.page, this.limit, this.OrganizationQuery)
@@ -193,8 +200,9 @@ export default {
       }
     },
     // 设置负责人id
-    click(id) {
-      this.leaderId = id
+    click(item) {
+      this.leaderId = item.id
+      this.leaderName = item.name
       console.log()
       console.log(this.leaderId)
     },

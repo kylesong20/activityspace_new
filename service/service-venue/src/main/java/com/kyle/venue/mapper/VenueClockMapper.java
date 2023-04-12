@@ -21,7 +21,10 @@ import java.util.List;
  */
 public interface VenueClockMapper extends BaseMapper<VenueClock> {
 
-    @Select("select id,name,count(1) value from (select user_id,venue_id as id,venue_name as name, count(1) as value from venue_clock vc ${ew.customSqlSegment}) a GROUP BY id,name")
+    @Select("SELECT v.id AS id, v.name AS name, COUNT(vc.user_id) AS value, vc.user_id AS user_id\n" +
+            "FROM venue v\n" +
+            "LEFT JOIN venue_clock vc ON v.id = vc.venue_id AND vc.create_time BETWEEN DATE_FORMAT(NOW(), '%Y-%m-%d 00:00:00') AND DATE_FORMAT(NOW(), '%Y-%m-%d 23:59:59')\n" +
+            "GROUP BY v.id, v.name, vc.user_id")
 //    @Select("select venue_id as id,venue_name as name, count(1) as value from venue_clock vc ${ew.customSqlSegment}")
     List<VenueClockCount> venueClockCount(@Param(Constants.WRAPPER) QueryWrapper<VenueClock> venueQueryWrapper);
 

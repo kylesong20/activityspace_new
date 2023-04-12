@@ -11,5 +11,7 @@ public class VenueClockCount implements Serializable{
     private String id;
     private Long value;
     private String name;
+    private String userId;
+
 }
 

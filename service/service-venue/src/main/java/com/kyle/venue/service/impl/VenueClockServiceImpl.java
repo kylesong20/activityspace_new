@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,9 +50,11 @@ public class VenueClockServiceImpl extends ServiceImpl<VenueClockMapper, VenueCl
     public List<VenueClockCount> venueClockCount() {
         QueryWrapper<VenueClock> wrapper = new QueryWrapper<>();
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");//设置日期格式
-        wrapper.between("create_time",df.format(new Date())+" 00:00:00",df.format(new Date())+" 23:59:59");//今天的打卡情况
-        wrapper.groupBy("venue_id","venue_name","user_id");
-        return venueClockMapper.venueClockCount(wrapper);
+//        wrapper.between("vc.create_time",df.format(new Date())+" 00:00:00",df.format(new Date())+" 23:59:59");//今天的打卡情况
+        wrapper.groupBy("v.id", "v.name", "vc.user_id");
+
+        List<VenueClockCount> venueClockCounts = venueClockMapper.venueClockCount(wrapper);
+        return venueClockCounts;
     }
 
     @Override

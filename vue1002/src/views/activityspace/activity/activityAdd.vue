@@ -43,7 +43,6 @@
             :key="item.id"
             :label="item.nickName"
             :value="item.id"
-            @click.native="click(item.id)"
           />
         </el-select>
       </el-form-item>

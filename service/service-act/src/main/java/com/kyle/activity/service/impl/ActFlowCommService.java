@@ -1,6 +1,7 @@
 package com.kyle.activity.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.kyle.activity.client.AdminClient;
 import com.kyle.activity.client.UcenterClient;
 import com.kyle.activity.entity.Activity;
 import com.kyle.activity.entity.Flow;
@@ -21,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.ObjectUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -55,6 +57,8 @@ public class ActFlowCommService {
 //    private AuditService auditService;
     @Autowired
     private UcenterClient ucenterClient;
+    @Autowired
+    private AdminClient adminClient;
 
     @Autowired
     private ActivityService activityService;
@@ -177,6 +181,8 @@ public class ActFlowCommService {
                         Activity activity = activityService.getById(id);
 //                        Audit auditInfo = auditService.findOneAuditById(activity.getAuditid());
                         Object user = ucenterClient.getById(activity.getUserId()).getData().get("user");
+                        if (ObjectUtils.isEmpty(user))
+                             user = adminClient.doAssign(activity.getUserId()).getData().get("item");
 //                        map.put("flowAuditName", auditInfo.getAuditname());
                         map.put("flowUser", user);
                         map.put("flowType", "活动申请");

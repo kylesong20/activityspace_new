@@ -1,5 +1,6 @@
 package com.kyle.activity.entity.vo;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -30,5 +31,8 @@ public class ActivityQuery implements Serializable {
 
     @ApiModelProperty(value = "查询活动开始时间", example = "2019-01-01 10:10:10")
     private String begin;//注意，这里使用的是String类型，前端传过来的数据无需进行类型转换
+
+    @TableField(exist = false)
+    private Boolean all;
 
 }

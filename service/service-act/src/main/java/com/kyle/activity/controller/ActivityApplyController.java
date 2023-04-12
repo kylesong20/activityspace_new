@@ -1,6 +1,7 @@
 package com.kyle.activity.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.kyle.activity.entity.ActivityApply;
 import com.kyle.activity.entity.vo.ActApplyQuery;
 import com.kyle.activity.service.ActivityApplyService;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -51,6 +53,12 @@ public class ActivityApplyController {
         String userId = tokenManager.getUserIDToken(token);
         Map<String, Object> map = activityApplyService.pageActivityCondition(current, limit,actApplyQuery,null, userId);
         return R.ok().data("total",map.get("total")).data("rows",map.get("rows"));
+    }
+
+    @PutMapping("clock/{activityId}")
+    public R clock(@PathVariable String activityId){
+        activityApplyService.update(new UpdateWrapper<ActivityApply>().set("clock_time",new Date()).eq("act_id",activityId));
+        return R.ok();
     }
 
 }

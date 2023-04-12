@@ -51,7 +51,7 @@ export default {
         },
         title: {
           left: 'center',
-          text: '高校社团活动场地热度分布地图'
+          text: '高校社团活动场地热度分布地图(当天)'
         },
         visualMap: {
           show: true,
@@ -60,7 +60,8 @@ export default {
           itemWidth: 12,
           itemHeight: 12,
           splitList: [
-            { start: 0, end: 20, label: '人迹罕至', color: '#b1d7c5' }, {
+            { start: 0, end: 0, label: '没人打卡', color: '#dbdbdb' },
+            { start: 1, end: 20, label: '人迹罕至', color: '#b1d7c5' }, {
               start: 20,
               end: 50,
               label: '寥寥无几',

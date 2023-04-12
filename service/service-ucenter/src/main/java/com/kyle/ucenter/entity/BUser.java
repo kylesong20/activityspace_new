@@ -58,4 +58,7 @@ public class BUser implements Serializable {
     public String getAvatar() {
         return "http://"+IPUtils.getServerIP()+ ":8001" + avatar;
     }
+    public String getAvatarEnd() {
+        return avatar;
+    }
 }

@@ -46,6 +46,8 @@ public class Organization implements Serializable {
     private String leaderName;
 
     private String introductionId;
+    @TableField(exist = false)
+    private String introduction;
 
 
 }

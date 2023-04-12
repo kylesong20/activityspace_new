@@ -2,18 +2,24 @@ package com.kyle.ucenter.controller;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.kyle.security.security.TokenManager;
 import com.kyle.ucenter.client.FileClient;
 import com.kyle.ucenter.entity.BUser;
+import com.kyle.ucenter.entity.vo.PasswordChange;
 import com.kyle.ucenter.entity.vo.UserQuery;
 import com.kyle.ucenter.service.BUserService;
+import com.kyle.util.JwtUtils;
 import com.kyle.util.MD5;
 import com.kyle.util.R;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -34,6 +40,9 @@ public class BUserController {
 
     @Autowired
     FileClient fileClient;
+
+    @Autowired
+    TokenManager tokenManager;
 
     @ApiOperation(value = "查询所有用户")
     @GetMapping(value="findAll")
@@ -113,6 +122,23 @@ public class BUserController {
         }
     }
 
+    @PostMapping("updateUserNameOrAvatar")
+    public R updateUserNameOrAvatar(@RequestBody BUser user){
+        if (StringUtils.isEmpty(user.getName())||StringUtils.isEmpty(user.getAvatar()))
+            return R.error().message("请输入信息");
+        String avatar = user.getAvatar();
+        user.setAvatar(avatar.substring(avatar.lastIndexOf("file")-1));
+        boolean flag = userService.update(new UpdateWrapper<BUser>()
+                .set("name",user.getName())
+                .set("avatar",user.getAvatarEnd())
+                .eq("id",user.getId()));
+        if (flag){
+            return  R.ok();
+        }else {
+            return R.error();
+        }
+    }
+
     @ApiOperation(value = "查询负责人")
     @GetMapping("getOrganizationUser/{oid}")
     public R getOrganizationUser(@PathVariable String oid){
@@ -121,6 +147,24 @@ public class BUserController {
         wrapper.orderByDesc("create_time");
         List<BUser> list = userService.list(wrapper);
         return R.ok().data("items",list);
+    }
+
+    @PostMapping("changePassword")
+    public R changePassword(@RequestBody PasswordChange passwordChange, HttpServletRequest request) {
+        String token = request.getHeader("X-token");
+        String userId = tokenManager.getUserIDToken(token);
+        if (StringUtils.isEmpty(userId))
+            return R.error().message("账号异常");
+        BUser user = userService.getById(userId);
+        if (!MD5.encrypt(passwordChange.getOldValue()).equals(user.getPassword())) {
+            return R.error().message("密码错误");
+        }
+        if (!passwordChange.getNewValue().equals(passwordChange.getNewValue2())) {
+            return R.error().message("两次密码不一致");
+        }
+        user.setPassword(MD5.encrypt(passwordChange.getNewValue()));
+        userService.update(new UpdateWrapper<BUser>().set("password",user.getPassword()).eq("id",user.getId()));
+        return R.ok();
     }
 
 }

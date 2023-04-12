@@ -117,9 +117,15 @@ public class OrganizationController {
 
     @ApiOperation(value = "根据组织ID查询组织简介")
     @GetMapping("getIntroduce/{id}")
-    public R getJobsIntroduce(@PathVariable String id){
+    public R getOrganizationsIntroduce(@PathVariable String id){
         String organizationIntroduce = organizationService.getIntroduceById(id);
         return R.ok().data("organizationIntroduce",organizationIntroduce);
+    }
+
+    @GetMapping("getOrganizationIntroduce/{id}")
+    public R getOrganizationIntroduce(@PathVariable String id){
+        Map<String, Object> organization = organizationService.getOrganizationIntroduce(id);
+        return R.ok().data("organization",organization);
     }
 }
 

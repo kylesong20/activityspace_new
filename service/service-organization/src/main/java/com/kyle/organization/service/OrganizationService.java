@@ -19,4 +19,6 @@ public interface OrganizationService extends IService<Organization> {
     Map<String, Object> pageOrganizationCondition(long current, long limit, OrganizationQuery organizationQuery);
 
     String getIntroduceById(String id);
+
+    Map<String, Object> getOrganizationIntroduce(String id);
 }

@@ -77,4 +77,14 @@ public class OrganizationServiceImpl extends ServiceImpl<OrganizationMapper, Org
         System.out.println(introduceById);
         return introduceById;
     }
+
+    @Override
+    public Map<String, Object> getOrganizationIntroduce(String id) {
+        Organization organization = organizationMapper.getOrganizationIntroduce(id);
+        List<Map<String, Object>> organizationMember = organizationMapper.getOrganizationMember(id);
+        Map<String, Object> map = new HashMap<>();
+        map.put("organizationMember",organizationMember);
+        map.put("organization",organization);
+        return map;
+    }
 }

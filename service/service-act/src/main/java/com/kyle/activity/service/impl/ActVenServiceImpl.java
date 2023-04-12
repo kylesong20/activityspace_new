@@ -43,4 +43,12 @@ public class ActVenServiceImpl extends ServiceImpl<ActVenMapper, ActVen> impleme
         }
         return actVenMapper.getActivitiesByVenueId(wrapper);
     }
+
+    @Override
+    public List<Activity> getVenueAble(Map<String,String> time) {
+        return actVenMapper.getVenueAble(new QueryWrapper<Activity>()
+                .between("begin_time", time.get("beginTime"), time.get("endTime"))
+                .between("end_time", time.get("beginTime"), time.get("endTime"))
+        );
+    }
 }

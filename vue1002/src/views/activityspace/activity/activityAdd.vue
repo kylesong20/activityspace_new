@@ -25,13 +25,14 @@
         />
       </el-form-item>
       <el-form-item label="选择活动场地" prop="venueId">
-        <el-select v-model="venues" filterable multiple placeholder="请选择" @visible-change="getAllVenue()">
+        <el-select v-model="venues" filterable multiple placeholder="请选择" :disabled="activity.beginTime===''||activity.endTime===''" @visible-change="getAllVenue()">
           <el-option
             v-for="item in AllVenue"
-            :key="item.id"
-            :label="item.name"
-            :value="item.id"
-            @click.native="click(item.id)"
+            :key="item.venue.id"
+            :label="item.venue.name"
+            :value="item.venue.id"
+            :disabled="item.activity !== undefined"
+            @click.native="click(item)"
           />
         </el-select>
       </el-form-item>
@@ -86,7 +87,6 @@
 
 <script>
 import activity from '@/api/activityspace/activity'
-import venue from '@/api/activityspace/venue'
 import user from '@/api/activityspace/acl/user'
 
 export default {
@@ -178,13 +178,16 @@ export default {
     },
 
     getAllVenue() {
-      if (this.AllVenue === null) {
-        venue.getAllVenue()
-          .then(response => {
-            this.AllVenue = response.data.items
-            console.log(this.AllVenue)
-          })
+      if (this.activity.beginTime === '' || this.activity.endTime === '') { return }
+      const time = {
+        endTime: this.activity.endTime,
+        beginTime: this.activity.beginTime
       }
+      activity.getVenueAble(time)
+        .then(response => {
+          this.AllVenue = response.data.list
+          console.log(this.AllVenue)
+        })
     },
 
     getAuditA() {
@@ -195,8 +198,16 @@ export default {
     },
 
     // 设置组id
-    click(id) {
-      this.venueId = id
+    click(item) {
+      console.log(item.venue.id)
+      if (item.activity !== undefined) {
+        this.$notify.info({
+          title: '场地已被占用',
+          message: item.activity.name + '在:' + item.activity.beginTime + '到' + item.activity.endTime + '使用该场地'
+        })
+      } else {
+        this.venueId = item.venue.id
+      }
     }
   }
 }

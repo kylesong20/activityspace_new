@@ -28,4 +28,7 @@ public interface ActVenMapper extends BaseMapper<ActVen> {
 
     @Select("select a.*, v.id as venId, av.id as avId from act_ven av left join venue v on v.id = av.ven_id left join activity a on av.act_id = a.id ${ew.customSqlSegment}")
     List<Activity> getActivitiesByVenueId(@Param(Constants.WRAPPER)QueryWrapper<Activity> eq);
+
+    @Select("select a.* ,av.ven_id as venId from act_ven av left join activity a on av.act_id = a.id ${ew.customSqlSegment}")
+    List<Activity> getVenueAble(@Param(Constants.WRAPPER)QueryWrapper<Activity> eq);
 }

@@ -71,8 +71,6 @@ public class OrganizationServiceImpl extends ServiceImpl<OrganizationMapper, Org
 
     @Override
     public String getIntroduceById(String id) {
-
-
         String introduceById = organizationMapper.getIntroduceById(id);
         System.out.println(introduceById);
         return introduceById;

@@ -57,5 +57,12 @@ export default {
       url: `/activity/act-ven/getActivitiesByVenueId/${venueId}`,
       method: 'get'
     })
+  },
+  getVenueAble(time) {
+    return request({
+      url: `/activity/act-ven/getVenueAble`,
+      method: 'post',
+      data: time
+    })
   }
 }

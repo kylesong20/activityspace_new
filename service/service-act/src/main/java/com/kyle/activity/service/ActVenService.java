@@ -21,4 +21,6 @@ public interface ActVenService extends IService<ActVen> {
     ActVen actVenList(String activityId);
 
     List<Activity> getActivitiesByVenueId(String venueId);
+
+    List<Activity> getVenueAble(Map<String,String> time);
 }

@@ -13,4 +13,9 @@ public class VenueDegradeFeignClient implements VenueClient {
     public R updateVenueState(String[] venueIds, boolean flag) {
         return R.error().message("更新场地状态出错！");
     }
+
+    @Override
+    public R findAllVenue() {
+        return R.error().message("查询场地出错！");
+    }
 }

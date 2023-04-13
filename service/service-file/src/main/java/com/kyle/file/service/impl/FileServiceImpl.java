@@ -41,7 +41,7 @@ public class FileServiceImpl implements FileService {
             }
             String path = "img/";
             Map<String, String> map = saveUtil(fileName, file, path);
-            return "http://localhost:8001/file/"+path+map.get("dateDir")+"/"+map.get("realFileName");
+            return "/file/"+path+map.get("dateDir")+"/"+map.get("realFileName");
         } catch (IOException e) {
             e.printStackTrace();
             return null;

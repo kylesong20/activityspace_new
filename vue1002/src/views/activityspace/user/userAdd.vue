@@ -34,7 +34,7 @@
       <!--        </el-select>-->
       <!--      </el-form-item>-->
       <el-form-item label="学生头像">
-        <pan-thumb :image="'http://127.0.0.1:8001'+user.avatar" />
+        <pan-thumb :image=" user.avatar === ''?'':'http://127.0.0.1:8001'+user.avatar" />
 
         <el-button
           icon="el-icon-upload"

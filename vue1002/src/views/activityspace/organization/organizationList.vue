@@ -152,9 +152,9 @@ export default {
     this.getList()
   },
   methods: {
-    changeLeader(){
-      organization.changeLeader(this.leaderId,this.leaderName,this.rowId).then(res=>{
-        this.$message.success("修改成功")
+    changeLeader() {
+      organization.changeLeader(this.leaderId, this.leaderName, this.rowId).then(res => {
+        this.$message.success('修改成功')
         this.getList()
       })
       this.dialogVisible = false
@@ -191,13 +191,11 @@ export default {
     },
 
     getUsersList(oid) {
-      if (this.users === null) {
-        user.getOrganizationUser(oid)
-          .then(response => {
-            this.users = response.data.items
-            console.log(this.users)
-          })
-      }
+      user.getOrganizationUser(oid)
+        .then(response => {
+          this.users = response.data.items
+          console.log(this.users)
+        })
     },
     // 设置负责人id
     click(item) {

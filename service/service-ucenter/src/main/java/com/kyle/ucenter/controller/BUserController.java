@@ -130,7 +130,7 @@ public class BUserController {
         user.setAvatar(avatar.substring(avatar.lastIndexOf("file")-1));
         boolean flag = userService.update(new UpdateWrapper<BUser>()
                 .set("name",user.getName())
-                .set("avatar",user.getAvatarEnd())
+                .set("avatar",user.getAvatar())
                 .eq("id",user.getId()));
         if (flag){
             return  R.ok();

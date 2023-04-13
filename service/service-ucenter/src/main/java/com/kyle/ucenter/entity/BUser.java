@@ -55,10 +55,10 @@ public class BUser implements Serializable {
     @TableField(exist = false)
     private char isLeader;
 
-    public String getAvatar() {
-        return "http://"+IPUtils.getServerIP()+ ":8001" + avatar;
-    }
-    public String getAvatarEnd() {
-        return avatar;
-    }
+//    public String getAvatar() {
+//        return "http://"+IPUtils.getServerIP()+ ":8001" + avatar;
+//    }
+//    public String getAvatarEnd() {
+//        return avatar;
+//    }
 }

@@ -46,6 +46,29 @@
           />
         </el-select>
       </el-form-item>
+      <el-form-item label="活动图" prop="img">
+        <pan-thumb :image=" activity.img === ''?'':'http://127.0.0.1:8001'+activity.img" />
+
+        <el-button
+          icon="el-icon-upload"
+          style="position: absolute;bottom: 15px;margin-left: 40px;"
+          type="primary"
+          @click="imagecropperShow=true"
+        >
+          上传活动图
+        </el-button>
+
+        <image-cropper
+          v-show="imagecropperShow"
+          :key="imagecropperKey"
+          :height="300"
+          :url="BASE_API+'/actfile/file/uploadAvatar'"
+          :width="300"
+          field="file"
+          @close="close"
+          @crop-upload-success="cropSuccess"
+        />
+      </el-form-item>
       <el-form-item label="请输入推文链接" prop="externalLinks">
         <el-input v-model="activity.externalLinks" />
       </el-form-item>
@@ -87,8 +110,13 @@
 <script>
 import activity from '@/api/activityspace/activity'
 import user from '@/api/activityspace/acl/user'
-
+import ImageCropper from '@/components/ImageCropper'
+import PanThumb from '@/components/PanThumb'
 export default {
+  components: {
+    ImageCropper,
+    PanThumb
+  },
   data() {
     return {
       rules: {
@@ -125,6 +153,11 @@ export default {
           required: true,
           message: '请输入申请理由',
           trigger: 'blur'
+        }],
+        img: [{
+          required: true,
+          message: '请选择图片',
+          trigger: 'blur'
         }]
       },
 
@@ -139,7 +172,12 @@ export default {
       venueId: '',
       Aid: '',
 
+      imagecropperShow: false,
+      imagecropperKey: 0, // 上传组件Key值
+      BASE_API: process.env.VUE_APP_BASE_API,
       saveBtnDisabled: false, // 保存按钮是否禁用,
+
+      fileList: [],
 
       AllVenue: null,
       venues: null,
@@ -207,7 +245,48 @@ export default {
       } else {
         this.venueId = item.venue.id
       }
-    }
+    },
+
+    // 头像保存
+    cropSuccess(resData) {
+      console.log(resData)
+      this.imagecropperShow = false
+      this.imagecropperKey = this.imagecropperKey + 1
+      this.activity.img = resData.fileUrl
+      // this.avatar_thumb = resData.fileUrl
+      // this.getImg(resData.fileUrl)
+    },
+    // 关闭弹窗
+    close() {
+      this.imagecropperShow = false
+      console.log(this.user.avatar)
+    },
+
+    // 获取头像
+    // getImg(fileUrl) {
+    //   console.log(fileUrl)
+    //   user.getUserAvatar(fileUrl)
+    //     .then(response => {
+    //         this.avatar_thumb = response.data.avatar
+    //                 console.log(response)
+    //       })
+    //     }
+
+    // ↓↓↓↓↓↓↓↓文件上传↓↓↓↓↓↓↓↓
+
+    onError(res) {
+      this.$alert('创建失败', '提示', {
+        confirmButtonText: '确定',
+        callback: action => {
+          console.log('上传失败')
+        }
+      })
+    },
+    handleChange(file, fileList) {
+      if (fileList.length > 0) {
+        this.fileList = [fileList[fileList.length - 1]] // 这一步，是 展示最后一次选择的csv文件
+      }
+    },
   }
 }
 </script>
